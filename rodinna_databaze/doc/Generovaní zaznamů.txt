@@ -1,0 +1,18 @@
+int cislo = 15;
+        String sql = "INSERT INTO APP.KNIHY (PORADOVECISLO, NAZEVKNIHY, AUTORKNIHY, ROKKNIHY, VYDAVATELSTVIKNIHY, ZANRKNIHY, JAZYKKNIHY, UMISTENIKNIHY) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        String str1 = String.format("Kniha %d", cislo);
+        String str2 = String.format("Autor %d", cislo);
+        String str3 = String.format("Vydavatelstvi %d", cislo);
+        String str4 = String.format("Zanr %d", cislo);
+        String str5 = String.format("Jazyk %d", cislo);
+        String str6 = String.format("Umisten %d", cislo);
+        ps.setInt(1, cislo);
+        ps.setString(2, str1);
+        ps.setString(3, str2);
+        ps.setInt(4, 1900+cislo);
+        ps.setString(5, str3);
+        ps.setString(6, str4);
+        ps.setString(7, str5);
+        ps.setString(8, str6);
+        int val = ps.executeUpdate();
