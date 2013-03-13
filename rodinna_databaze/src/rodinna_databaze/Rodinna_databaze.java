@@ -91,7 +91,19 @@ public class Rodinna_databaze {
 
         //SMAZANI ZAZNAMU
         //st.executeUpdate("DELETE FROM APP.KNIHY WHERE PORADOVECISLO=15");
-
+        
+        Collections.sort(listKnih, new razeni1());        
+        System.out.printf("%4s  %-20s  %-15s  %-4s  %-17s  %-10s  %-10s  %-8s%n", "P.C.", "NAZEV", "AUTOR", "ROK", "VYDAVATELSTVI", "ZANR", "JAZYK", "UMISTENI");
+        for (Iterator<Kniha> it = listKnih.iterator(); it.hasNext();) {
+            pomocnaKniha = it.next();
+            System.out.printf("%4d  %-20s  %-15s  %4d  %-17s  %-10s  %-10s  %-8s%n", pomocnaKniha.getPoradoveCislo(), 
+                    pomocnaKniha.getNazevKnihy(), pomocnaKniha.getAutorKnihy(), pomocnaKniha.getRokKnihy(), 
+                    pomocnaKniha.getVydavatelstviKnihy(), pomocnaKniha.getZanrKnihy(), pomocnaKniha.getJazykKnihy(), 
+                    pomocnaKniha.getUmisteniKnihy());
+        }
+        
+        Collections.sort(listKnih, new razeni2());        
+        System.out.println("");
         System.out.printf("%4s  %-20s  %-15s  %-4s  %-17s  %-10s  %-10s  %-8s%n", "P.C.", "NAZEV", "AUTOR", "ROK", "VYDAVATELSTVI", "ZANR", "JAZYK", "UMISTENI");
         for (Iterator<Kniha> it = listKnih.iterator(); it.hasNext();) {
             pomocnaKniha = it.next();

@@ -3,14 +3,14 @@ package rodinna_databaze;
 import java.io.*;
 import java.util.Comparator;
 
-class PodlePoradovehoCisla implements Comparator<Kniha>{
+class razeni1 implements Comparator<Kniha>{
     @Override
     public int compare(Kniha o1, Kniha o2) {
       return o1.poradoveCislo - o2.poradoveCislo;
     }
 }
 
-class PodleNazvuKnihy implements Comparator<Kniha>{
+class razeni2 implements Comparator<Kniha>{
     @Override
     public int compare(Kniha o1, Kniha o2) {
        return o1.nazevKnihy.compareTo(o2.nazevKnihy);
@@ -19,42 +19,42 @@ class PodleNazvuKnihy implements Comparator<Kniha>{
     }
 }
 
-class PodleAutoraKnihy implements Comparator<Kniha>{
+class razeni3 implements Comparator<Kniha>{
     @Override
     public int compare(Kniha o1, Kniha o2) {
       return o1.autorKnihy.compareTo(o2.autorKnihy);
     }
 }
 
-class PodleRokuKnihy implements Comparator<Kniha>{
+class razeni4 implements Comparator<Kniha>{
     @Override
     public int compare(Kniha o1, Kniha o2) {
       return o1.rokKnihy - o2.rokKnihy;
     }
 }
 
-class PodleVydavatelstviKnihy implements Comparator<Kniha>{
+class razeni5 implements Comparator<Kniha>{
     @Override
     public int compare(Kniha o1, Kniha o2) {
       return o1.vydavatelstviKnihy.compareTo(o2.vydavatelstviKnihy);
     }
 }
 
-class PodleZanruKnihy implements Comparator<Kniha>{
+class razeni6 implements Comparator<Kniha>{
     @Override
     public int compare(Kniha o1, Kniha o2) {
       return o1.zanrKnihy.compareTo(o2.zanrKnihy);
     }
 }
 
-class PodleJazykaKnihy implements Comparator<Kniha>{
+class razeni7 implements Comparator<Kniha>{
     @Override
     public int compare(Kniha o1, Kniha o2) {
       return o1.jazykKnihy.compareTo(o2.jazykKnihy);
     }
 }
 
-class PodleUmisteniKnihy implements Comparator<Kniha>{
+class razeni8 implements Comparator<Kniha>{
     @Override
     public int compare(Kniha o1, Kniha o2) {
       return o1.umisteniKnihy.compareTo(o2.umisteniKnihy);
