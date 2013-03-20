@@ -32,8 +32,11 @@ Vize do budoucna:
 atd.). Program bude mít vstupní menu s výběrem databáze ve, které bude uživatel 
 chtít pracovat. Všechny databáze budou postaveny na stejném základu a každá bude 
 mít své odlišující možnosti. Uživatelské prostředí by mělo být v grafické podobě.
+
 ----------------------------------------------------------------------------------------------------------
 
+Současné zadání:
+-----------------------------
    Hlavní funkce aplikace zůstavají přibliženě stejné změna se bude týkat především 
 interní práce s databází (záznamy) a program bude mít grafické uživatelské rozhraní.
 Aplikace by měla obsahovat oproti předcházející také větší množství operací pro
