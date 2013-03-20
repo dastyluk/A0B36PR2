@@ -3,6 +3,7 @@ package rodinna_databaze;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.sql.*;
 import java.util.*;
 //import java.awt.*;
@@ -26,6 +27,7 @@ public class GUI_hl extends JFrame {
         setVisible(true);
         Container kon = getContentPane();
         kon.setBackground(Color.green);
+        //kon.setFont(Font.getFont(Font.DIALOG));
         FlowLayout srf = new FlowLayout();
         kon.setLayout(srf);
         //JTextArea to = new JTextArea("Počáteční text", 28, 50);
@@ -51,7 +53,7 @@ public class GUI_hl extends JFrame {
         PrvekDatabaze pomocnaKniha;
         List<PrvekDatabaze> listKnih = new ArrayList<>();
 
-        JFrame f = new GUI_hl();
+        //JFrame f = new GUI_hl();
 
         String url = "jdbc:derby://localhost:1527/Datab_hl";
         Class.forName("org.apache.derby.jdbc.ClientDriver").newInstance();
@@ -69,7 +71,7 @@ public class GUI_hl extends JFrame {
 
         //VLOZENI ZAZNAMU
         //st.executeUpdate("INSERT INTO APP.KNIHY (PORADOVECISLO, NAZEVKNIHY, AUTORKNIHY, ROKKNIHY, VYDAVATELSTVIKNIHY, ZANRKNIHY, JAZYKKNIHY, UMISTENIKNIHY) VALUES (2, 'Kniha 2', 'Autor 2', 1902, 'Vydavatelstvi 2', 'Zanr 2', 'Jazyk 2', 'Umisteni 2')");
-        pomocnaKniha = databaze.nactiNovouKnihu(pocetKnih);
+        /*pomocnaKniha = databaze.nactiNovouKnihu(pocetKnih);
         pocetKnih++;
         Collections.addAll(listKnih, pomocnaKniha);
         String sql = "INSERT INTO APP.KNIHY (PORADOVECISLO, NAZEVKNIHY, AUTORKNIHY, ROKKNIHY, VYDAVATELSTVIKNIHY, ZANRKNIHY, JAZYKKNIHY, UMISTENIKNIHY) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
@@ -82,7 +84,7 @@ public class GUI_hl extends JFrame {
         ps.setString(6, pomocnaKniha.getParam6());
         ps.setString(7, pomocnaKniha.getParam7());
         ps.setString(8, pomocnaKniha.getParam8());
-        int val = ps.executeUpdate();
+        int val = ps.executeUpdate();*/
 
         //EDITACE ZAZNAMU
         //st.executeUpdate("UPDATE APP.KNIHY SET NAZEVKNIHY='Matematika pro SOŠ' WHERE PORADOVECISLO=15");
