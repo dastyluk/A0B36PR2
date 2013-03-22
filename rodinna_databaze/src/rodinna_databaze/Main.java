@@ -21,7 +21,7 @@ public class Main {
      */
     public static void main(String[] args) throws Exception {
         
-        //databaze = new Databaze();
+        Databaze databaze = new Databaze();
         GUI_hl okno1 = new GUI_hl();
         okno1.setVisible(true);
 
