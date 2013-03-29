@@ -21,7 +21,7 @@ public class Main {
      */
     public static void main(String[] args) throws Exception {
         
-        Databaze databaze = new Databaze();
+        //Databaze databaze = new Databaze();
         GUI_hl okno1 = new GUI_hl();
         okno1.setVisible(true);
 
@@ -69,35 +69,26 @@ public class Main {
         //st.executeUpdate("DELETE FROM APP.KNIHY WHERE PORADOVECISLO=15");
 
         Collections.sort(listKnih, new razeni1());
-        System.out.printf("%4s  %-20s  %-15s  %-4s  %-17s  %-10s  %-10s  %-8s%n", "P.C.", "NAZEV", "AUTOR", "ROK", "VYDAVATELSTVI", "ZANR", "JAZYK", "UMISTENI");
-        for (Iterator<PrvekDatabaze> it = listKnih.iterator(); it.hasNext();) {
-            pomocnaKniha = it.next();
-            System.out.printf("%4d  %-20s  %-15s  %4d  %-17s  %-10s  %-10s  %-8s%n", pomocnaKniha.getParam1(),
-                    pomocnaKniha.getParam2(), pomocnaKniha.getParam3(), pomocnaKniha.getParam4(),
-                    pomocnaKniha.getParam5(), pomocnaKniha.getParam6(), pomocnaKniha.getParam7(),
-                    pomocnaKniha.getParam8());
-        }
+//        System.out.printf("%4s  %-20s  %-15s  %-4s  %-17s  %-10s  %-10s  %-8s%n", "P.C.", "NAZEV", "AUTOR", "ROK", "VYDAVATELSTVI", "ZANR", "JAZYK", "UMISTENI");
+//        for (Iterator<PrvekDatabaze> it = listKnih.iterator(); it.hasNext();) {
+//            pomocnaKniha = it.next();
+//            System.out.printf("%4d  %-20s  %-15s  %4d  %-17s  %-10s  %-10s  %-8s%n", pomocnaKniha.getParam1(),
+//                    pomocnaKniha.getParam2(), pomocnaKniha.getParam3(), pomocnaKniha.getParam4(),
+//                    pomocnaKniha.getParam5(), pomocnaKniha.getParam6(), pomocnaKniha.getParam7(),
+//                    pomocnaKniha.getParam8());
+//        }
 
         Collections.sort(listKnih, new razeni2());
-        System.out.println("");
-        System.out.printf("%4s  %-20s  %-15s  %-4s  %-17s  %-10s  %-10s  %-8s%n", "P.C.", "NAZEV", "AUTOR", "ROK", "VYDAVATELSTVI", "ZANR", "JAZYK", "UMISTENI");
-        for (Iterator<PrvekDatabaze> it = listKnih.iterator(); it.hasNext();) {
-            pomocnaKniha = it.next();
-            System.out.printf("%4d  %-20s  %-15s  %4d  %-17s  %-10s  %-10s  %-8s%n", pomocnaKniha.getParam1(),
-                    pomocnaKniha.getParam2(), pomocnaKniha.getParam3(), pomocnaKniha.getParam4(),
-                    pomocnaKniha.getParam5(), pomocnaKniha.getParam6(), pomocnaKniha.getParam7(),
-                    pomocnaKniha.getParam8());
-        }
-        
-        String vypisTabulky = "";
-        for (Iterator<PrvekDatabaze> it = listKnih.iterator(); it.hasNext();) {
-            pomocnaKniha = it.next();
-            vypisTabulky = vypisTabulky + String.format("%4d  %-20s  %-15s  %4d  %-17s  %-10s  %-10s  %-8s%n", pomocnaKniha.getParam1(),
-                    pomocnaKniha.getParam2(), pomocnaKniha.getParam3(), pomocnaKniha.getParam4(),
-                    pomocnaKniha.getParam5(), pomocnaKniha.getParam6(), pomocnaKniha.getParam7(),
-                    pomocnaKniha.getParam8());
-        }        
-        okno1.vypisTabulkuDoOblastiHlavni(vypisTabulky);
+//        System.out.println("");
+//        System.out.printf("%4s  %-20s  %-15s  %-4s  %-17s  %-10s  %-10s  %-8s%n", "P.C.", "NAZEV", "AUTOR", "ROK", "VYDAVATELSTVI", "ZANR", "JAZYK", "UMISTENI");
+//        for (Iterator<PrvekDatabaze> it = listKnih.iterator(); it.hasNext();) {
+//            pomocnaKniha = it.next();
+//            System.out.printf("%4d  %-20s  %-15s  %4d  %-17s  %-10s  %-10s  %-8s%n", pomocnaKniha.getParam1(),
+//                    pomocnaKniha.getParam2(), pomocnaKniha.getParam3(), pomocnaKniha.getParam4(),
+//                    pomocnaKniha.getParam5(), pomocnaKniha.getParam6(), pomocnaKniha.getParam7(),
+//                    pomocnaKniha.getParam8());
+//        }        
+        okno1.vypisTabulkuDoOblastiHlavni(listKnih);
         
         // uzavření dotazu i všech výsledků
         st.close();
