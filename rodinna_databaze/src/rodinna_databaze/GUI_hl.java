@@ -8,6 +8,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
@@ -143,6 +145,9 @@ public class GUI_hl extends JFrame {
     }
 
     void vypisTabulkuDoOblastiHlavni(List listKnih) {
+        for (int i = modelTab.getRowCount() - 1; i >= 0; i--) {
+            modelTab.removeRow(i);
+        }
         for (Iterator<PrvekDatabaze> it = listKnih.iterator(); it.hasNext();) {
             pomocnaKniha = it.next();            
             modelTab.addRow(new Object[]{pomocnaKniha.getParam1(), pomocnaKniha.getParam2(), pomocnaKniha.getParam3(),
@@ -161,9 +166,16 @@ public class GUI_hl extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             int cisloKnihy = Integer.parseInt(oblastNabidkaFieldUprav.getText());
-            System.out.println(cisloKnihy);
-            pomocnaKniha = databaze.upravStavajiciKnihu(cisloKnihy);
-            System.out.println(pomocnaKniha);
+            try {
+                //            System.out.println(cisloKnihy);
+                //            pomocnaKniha = databaze.upravStavajiciKnihu(cisloKnihy);
+                //            System.out.println(pomocnaKniha.getParam2());
+                pomocnaKniha = new Kniha(cisloKnihy, "nazev2", "autor2", 1902, "vydav2", "zanr2", "jazyk2", "3A5");
+                Main.upravZaznamVSQLDatabaziAArrayListu(cisloKnihy, pomocnaKniha);
+                oblastNabidkaFieldUprav.setText("");
+            } catch (Exception ex) {
+                Logger.getLogger(GUI_hl.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
