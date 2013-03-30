@@ -159,6 +159,10 @@ public class GUI_hl extends JFrame {
     class udalostOblastNabidkaButtonNovy implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+            int pocetZaznamu = Main.vratPocetZaznamu();
+            //pomocnaKniha = Main.vratZaznamPodleCisla(cisloKnihy);
+            OknoOblastNabidkaNovy okno2 = new OknoOblastNabidkaNovy(pocetZaznamu);
+            okno2.setVisible(true);            
         }
     }
 
@@ -166,22 +170,44 @@ public class GUI_hl extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
             int cisloKnihy = Integer.parseInt(oblastNabidkaFieldUprav.getText());
-            try {
-                //            System.out.println(cisloKnihy);
-                //            pomocnaKniha = databaze.upravStavajiciKnihu(cisloKnihy);
-                //            System.out.println(pomocnaKniha.getParam2());
-                pomocnaKniha = new Kniha(cisloKnihy, "nazev2", "autor2", 1902, "vydav2", "zanr2", "jazyk2", "3A5");
-                Main.upravZaznamVSQLDatabaziAArrayListu(cisloKnihy, pomocnaKniha);
-                oblastNabidkaFieldUprav.setText("");
-            } catch (Exception ex) {
-                Logger.getLogger(GUI_hl.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            pomocnaKniha = Main.vratZaznamPodleCisla(cisloKnihy);
+            OknoOblastNabidkaUprav okno2 = new OknoOblastNabidkaUprav(pomocnaKniha);
+            okno2.setVisible(true);
+            oblastNabidkaFieldUprav.setText("");
         }
     }
 
     class udalostOblastNabidkaButtonSmaz implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+            try {
+                int cisloKnihy = Integer.parseInt(oblastNabidkaFieldSmaz.getText());                
+                oblastNabidkaFieldSmaz.setText("");
+                pomocnaKniha = Main.vratZaznamPodleCisla(cisloKnihy);
+                String hlaska = String.format("Opravdu chcete smazat tento záznam? \n %d - %s - %s - %d - %s - %s - %s - %s",
+                        pomocnaKniha.getParam1(), pomocnaKniha.getParam2(), pomocnaKniha.getParam3(), 
+                        pomocnaKniha.getParam4(), pomocnaKniha.getParam5(), pomocnaKniha.getParam6(),
+                        pomocnaKniha.getParam7(), pomocnaKniha.getParam8());
+                GUI_hl okno2 = new GUI_hl();
+                Object[] options = {"Ano", "Ne"};            
+                switch (JOptionPane.showOptionDialog(okno2,
+                        hlaska,
+                        "Mazání záznamu",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE,
+                        null, //nepouzivat zakladni ikony
+                        options, //napisy ikon
+                        options[0])) {  //defaultni ikona             
+                    //showConfirmDialog     JOptionPane.ERROR_MESSAGE)){
+                    case JOptionPane.OK_OPTION:  //ukonci program
+                        pomocnaKniha = new Kniha(cisloKnihy, "ZÁZNAM SMAZÁN!", "-", 0, "-", "-", "-", "-");
+                        Main.upravZaznamVSQLDatabaziAArrayListu(cisloKnihy, pomocnaKniha);
+                        Main.mainVypisTabulkuDoOblastiHlavni();
+                    case JOptionPane.CANCEL_OPTION:  //rozmyslel si to, nedelej nic.
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(GUI_hl.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
