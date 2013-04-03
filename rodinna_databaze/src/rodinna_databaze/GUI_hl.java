@@ -14,6 +14,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
+
 /**
  * Semestrální práce na A0B36PR2 RODINNÁ DATABÁZE Začátek tvorby: 22.2.2013
  *
@@ -21,7 +22,6 @@ import javax.swing.table.TableColumn;
  */
 public class GUI_hl extends JFrame {
 
-    private Databaze databaze = new Databaze();
     private PrvekDatabaze pomocnaKniha;
     //JTextArea to = new JTextArea("Počáteční text", 28, 50);
     //JButton tl1 = new JButton("Test1");
@@ -40,8 +40,9 @@ public class GUI_hl extends JFrame {
     private JLabel oblastNabidkaLabelSmaz = new JLabel("Zadej pořadové číslo záznamu:");
     private JTextField oblastNabidkaFieldSmaz = new JTextField("");
     private JButton oblastNabidkaButtonSmaz = new JButton("Smazat záznam");
+    private JButton oblastNabidkaButtonTrideniNazev = new JButton ("Třídění podle názvu");
     private JTextField oblastHlaseni = new JTextField("Připraven");
-
+    
     public GUI_hl() {
         super();
         this.setBounds(100, 50, 1100, 750);
@@ -76,12 +77,20 @@ public class GUI_hl extends JFrame {
         oblastHlavni.setPreferredSize(new Dimension(800, 50));
         oblastHlavni.setBorder(BorderFactory.createTitledBorder("Zobrazení databáze"));
         String[] columnNames = {"P.Č.", "Název", "Autor", "Rok", "Vydatelství", "Zanr", "Jazyk", "Umístění"};
+                
         modelTab = new DefaultTableModel(columnNames, 0); 
         oblastHlavniTab = new JTable(modelTab);
         oblastHlavniTab.setColumnSelectionAllowed(true);
         oblastHlavniTab.setFillsViewportHeight(true);
         oblastHlavniTab.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         oblastHlavniTab.setAutoCreateColumnsFromModel(rootPaneCheckingEnabled);
+        oblastHlavniTab.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                //evt.
+            
+            }
+        });
         oblastHlavniScroll.setViewportView(oblastHlavniTab);//(oblastHlavniTab);
         oblastHlavniScroll.setBounds(7, 20, 785, 641);
         TableColumn column;
@@ -128,6 +137,8 @@ public class GUI_hl extends JFrame {
         oblastNabidkaFieldSmaz.setBounds(196, 165, 35, 20);
         oblastNabidkaButtonSmaz.setBounds(75, 190, 130, 25);
         oblastNabidkaButtonSmaz.addActionListener(new udalostOblastNabidkaButtonSmaz());
+        oblastNabidkaButtonTrideniNazev.setBounds(30, 400, 200, 25);
+        oblastNabidkaButtonTrideniNazev.addActionListener(new udalostOblastNabidkaButtonTrideniNazev());
         oblastNabidka.add(oblastNabidkaButtonNovy);
         oblastNabidka.add(oblastNabidkaLabelUprav);
         oblastNabidka.add(oblastNabidkaFieldUprav);
@@ -135,15 +146,17 @@ public class GUI_hl extends JFrame {
         oblastNabidka.add(oblastNabidkaLabelSmaz);
         oblastNabidka.add(oblastNabidkaFieldSmaz);
         oblastNabidka.add(oblastNabidkaButtonSmaz);
-
+        oblastNabidka.add(oblastNabidkaButtonTrideniNazev);
+        
+        
         kon.add(oblastMenu, BorderLayout.NORTH);
         kon.add(oblastHlavni, BorderLayout.WEST);
         kon.add(oblastNabidka, BorderLayout.EAST);
         kon.add(oblastHlaseni, BorderLayout.SOUTH);
 
         setContentPane(kon);
-    }
-
+    } 
+       
     void vypisTabulkuDoOblastiHlavni(List listKnih) {
         for (int i = modelTab.getRowCount() - 1; i >= 0; i--) {
             modelTab.removeRow(i);
@@ -208,6 +221,13 @@ public class GUI_hl extends JFrame {
             } catch (Exception ex) {
                 Logger.getLogger(GUI_hl.class.getName()).log(Level.SEVERE, null, ex);
             }
+        }
+    }
+    
+    class udalostOblastNabidkaButtonTrideniNazev implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            Main.razeniPodleNazvu();
         }
     }
 

@@ -146,6 +146,12 @@ public class Main {
         }
     }
     
+    public static void razeniPodleNazvu() {
+        List<PrvekDatabaze> listKnihKeTrideni = new ArrayList<>(listKnih);
+        Collections.sort(listKnihKeTrideni, new razeni2());
+        okno1.vypisTabulkuDoOblastiHlavni(listKnihKeTrideni);
+    }
+    
     public static void mainVypisTabulkuDoOblastiHlavni() {
         okno1.vypisTabulkuDoOblastiHlavni(listKnih);
     }
@@ -156,8 +162,8 @@ public class Main {
     public static void main(String[] args) throws Exception {
 
         databaze = new Databaze();
-        okno1 = new GUI_hl();
-        okno1.setVisible(true);
+        okno1 = new GUI_hl();        
+        okno1.setVisible(true);        
 
         listKnih = new ArrayList<>();
 
