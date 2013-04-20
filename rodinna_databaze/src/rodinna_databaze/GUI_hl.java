@@ -11,16 +11,18 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
-
+import javax.swing.table.TableModel;
 
 /**
  * Semestrální práce na A0B36PR2 RODINNÁ DATABÁZE Začátek tvorby: 22.2.2013
  *
  * @author Lukáš Dastych
  */
-public class GUI_hl extends JFrame {
+public class GUI_hl extends JFrame implements TableModelListener {
 
     private PrvekDatabaze pomocnaKniha;
     //JTextArea to = new JTextArea("Počáteční text", 28, 50);
@@ -40,14 +42,17 @@ public class GUI_hl extends JFrame {
     private JLabel oblastNabidkaLabelSmaz = new JLabel("Zadej pořadové číslo záznamu:");
     private JTextField oblastNabidkaFieldSmaz = new JTextField("");
     private JButton oblastNabidkaButtonSmaz = new JButton("Smazat záznam");
-    private JButton oblastNabidkaButtonTrideniNazev = new JButton ("Třídění podle názvu");
+    private JButton oblastNabidkaButtonTrideniNazev = new JButton("Třídění podle názvu");
     private JTextField oblastHlaseni = new JTextField("Připraven");
-    
+    private boolean provadetZmenyVTab = false;
+    private boolean predchoziStavPrepisuTab = false;
+
     public GUI_hl() {
         super();
-        this.setBounds(100, 50, 1100, 750);
+        this.setBounds(100, 0, 1100, 740);  //this.setBounds(100, 50, 1100, 750);
         this.setTitle("Rodinná databáze");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setResizable(false);
         Container kon = getContentPane();
 //        kon.setBackground(Color.lightGray);
         BorderLayout srb = new BorderLayout();
@@ -71,40 +76,68 @@ public class GUI_hl extends JFrame {
         polozkaMenu.setMnemonic(KeyEvent.VK_O);
         polozkaMenu.addActionListener(new udalostPolozkaMenuOProgramu());
         submenuNapoveda.add(polozkaMenu);
-        
+
 
         JLayeredPane oblastHlavni = new JLayeredPane();
         oblastHlavni.setPreferredSize(new Dimension(800, 50));
         oblastHlavni.setBorder(BorderFactory.createTitledBorder("Zobrazení databáze"));
         String[] columnNames = {"P.Č.", "Název", "Autor", "Rok", "Vydatelství", "Zanr", "Jazyk", "Umístění"};
-                
-        modelTab = new DefaultTableModel(columnNames, 0); 
+
+        modelTab = new DefaultTableModel(columnNames, 0);
         oblastHlavniTab = new JTable(modelTab);
         oblastHlavniTab.setColumnSelectionAllowed(true);
         oblastHlavniTab.setFillsViewportHeight(true);
         oblastHlavniTab.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         oblastHlavniTab.setAutoCreateColumnsFromModel(rootPaneCheckingEnabled);
-        oblastHlavniTab.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                //evt.
-            
-            }
-        });
+        oblastHlavniTab.getModel().addTableModelListener(this);
         oblastHlavniScroll.setViewportView(oblastHlavniTab);//(oblastHlavniTab);
-        oblastHlavniScroll.setBounds(7, 20, 785, 641);
+        oblastHlavniScroll.setBounds(7, 20, 785, 632);
         TableColumn column;
         for (int i = 0; i < 8; i++) {  //NASTAVENI SIRKY SLOUPCU
             column = oblastHlavniTab.getColumnModel().getColumn(i);
-            if (i == 0) {column.setMinWidth(30); column.setMaxWidth(30);}  //por. cislo
-            else {if (i == 1) {column.setMinWidth(250);}   //nazev
-            else {if (i == 2) {column.setMinWidth(120);}   //autor
-            else {if (i == 3) {column.setMinWidth(40); column.setMaxWidth(40);}   //rok
-            else {if (i == 4) {column.setMinWidth(100);}   //vydavat.
-            else {if (i == 5) {column.setMinWidth(65); column.setMaxWidth(65);}   //zanr
-            else {if (i == 6) {column.setMinWidth(60); column.setMaxWidth(60);}   //jazyk
-            else {if (i == 7) {column.setMinWidth(55); column.setMaxWidth(55);}  //umisteni
-            }}}}}}}
+            if (i == 0) {
+                column.setMinWidth(30);
+                column.setMaxWidth(30);
+            } //por. cislo
+            else {
+                if (i == 1) {
+                    column.setMinWidth(250);
+                } //nazev
+                else {
+                    if (i == 2) {
+                        column.setMinWidth(120);
+                    } //autor
+                    else {
+                        if (i == 3) {
+                            column.setMinWidth(40);
+                            column.setMaxWidth(40);
+                        } //rok
+                        else {
+                            if (i == 4) {
+                                column.setMinWidth(100);
+                            } //vydavat.
+                            else {
+                                if (i == 5) {
+                                    column.setMinWidth(65);
+                                    column.setMaxWidth(65);
+                                } //zanr
+                                else {
+                                    if (i == 6) {
+                                        column.setMinWidth(60);
+                                        column.setMaxWidth(60);
+                                    } //jazyk
+                                    else {
+                                        if (i == 7) {
+                                            column.setMinWidth(55);
+                                            column.setMaxWidth(55);
+                                        }  //umisteni
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
 //        TVORBA SLOUPCU A RADEK
 //        // Create a couple of columns 
@@ -122,7 +155,7 @@ public class GUI_hl extends JFrame {
 //            oblastHlavniTab.getModel().setValueAt("New Value", radek, sloupec);            
 //        }        
         oblastHlavni.add(oblastHlavniScroll);
-        
+
 
         JLayeredPane oblastNabidka = new JLayeredPane();
         oblastNabidka.setPreferredSize(new Dimension(280, 50));
@@ -147,39 +180,78 @@ public class GUI_hl extends JFrame {
         oblastNabidka.add(oblastNabidkaFieldSmaz);
         oblastNabidka.add(oblastNabidkaButtonSmaz);
         oblastNabidka.add(oblastNabidkaButtonTrideniNazev);
-        
-        
+
+
         kon.add(oblastMenu, BorderLayout.NORTH);
         kon.add(oblastHlavni, BorderLayout.WEST);
         kon.add(oblastNabidka, BorderLayout.EAST);
         kon.add(oblastHlaseni, BorderLayout.SOUTH);
 
         setContentPane(kon);
-    } 
-       
+    }
+
+    @Override
+    public void tableChanged(TableModelEvent e) {
+        if (provadetZmenyVTab) {
+            if (predchoziStavPrepisuTab) {
+                predchoziStavPrepisuTab = false;
+            } else {
+                int radek = e.getFirstRow();
+                int sloupec = e.getColumn();
+
+                if (sloupec != 0) {
+//                String novyObsah = (String) oblastHlavniTab.getModel().getValueAt(radek, sloupec);                
+//                oblastHlaseni.setText(String.format("Zmena v tabulce - radek: %d, sloupec: %d, %s.", radek + 1, sloupec + 1, novyObsah));
+//                System.out.printf("Zmena v tabulce - radek: %d, sloupec: %d, %s, %d.%n", radek + 1, sloupec + 1, novyObsah, rokk);
+
+                pomocnaKniha = new Kniha(radek + 1, (String) oblastHlavniTab.getModel().getValueAt(radek, 1),
+                        (String) oblastHlavniTab.getModel().getValueAt(radek, 2),
+                        Integer.parseInt(oblastHlavniTab.getModel().getValueAt(radek, 3).toString()),
+                        (String) oblastHlavniTab.getModel().getValueAt(radek, 4),
+                        (String) oblastHlavniTab.getModel().getValueAt(radek, 5),
+                        (String) oblastHlavniTab.getModel().getValueAt(radek, 6),
+                        (String) oblastHlavniTab.getModel().getValueAt(radek, 7));
+                try {
+                    Main.upravZaznamVSQLDatabaziAArrayListu(radek + 1, pomocnaKniha);
+                    //            Main.mainVypisTabulkuDoOblastiHlavni();
+                } catch (Exception ex) {
+                    Logger.getLogger(GUI_hl.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                } else {
+                    predchoziStavPrepisuTab = true;
+                    oblastHlavniTab.getModel().setValueAt("" + (radek + 1), radek, sloupec);
+                }
+            }
+        }
+    }
+
     void vypisTabulkuDoOblastiHlavni(List listKnih) {
+        provadetZmenyVTab = false;
         for (int i = modelTab.getRowCount() - 1; i >= 0; i--) {
             modelTab.removeRow(i);
         }
         for (Iterator<PrvekDatabaze> it = listKnih.iterator(); it.hasNext();) {
-            pomocnaKniha = it.next();            
+            pomocnaKniha = it.next();
             modelTab.addRow(new Object[]{pomocnaKniha.getParam1(), pomocnaKniha.getParam2(), pomocnaKniha.getParam3(),
-                                         pomocnaKniha.getParam4(), pomocnaKniha.getParam5(), pomocnaKniha.getParam6(), 
-                                         pomocnaKniha.getParam7(), pomocnaKniha.getParam8()});
+                        pomocnaKniha.getParam4(), pomocnaKniha.getParam5(), pomocnaKniha.getParam6(),
+                        pomocnaKniha.getParam7(), pomocnaKniha.getParam8()});
         }
+        provadetZmenyVTab = true;
     }
 
     class udalostOblastNabidkaButtonNovy implements ActionListener {
+
         @Override
         public void actionPerformed(ActionEvent e) {
             int pocetZaznamu = Main.vratPocetZaznamu();
             //pomocnaKniha = Main.vratZaznamPodleCisla(cisloKnihy);
             OknoOblastNabidkaNovy okno2 = new OknoOblastNabidkaNovy(pocetZaznamu);
-            okno2.setVisible(true);            
+            okno2.setVisible(true);
         }
     }
 
     class udalostOblastNabidkaButtonUprav implements ActionListener {
+
         @Override
         public void actionPerformed(ActionEvent e) {
             int cisloKnihy = Integer.parseInt(oblastNabidkaFieldUprav.getText());
@@ -191,18 +263,19 @@ public class GUI_hl extends JFrame {
     }
 
     class udalostOblastNabidkaButtonSmaz implements ActionListener {
+
         @Override
         public void actionPerformed(ActionEvent e) {
             try {
-                int cisloKnihy = Integer.parseInt(oblastNabidkaFieldSmaz.getText());                
+                int cisloKnihy = Integer.parseInt(oblastNabidkaFieldSmaz.getText());
                 oblastNabidkaFieldSmaz.setText("");
                 pomocnaKniha = Main.vratZaznamPodleCisla(cisloKnihy);
                 String hlaska = String.format("Opravdu chcete smazat tento záznam? \n %d - %s - %s - %d - %s - %s - %s - %s",
-                        pomocnaKniha.getParam1(), pomocnaKniha.getParam2(), pomocnaKniha.getParam3(), 
+                        pomocnaKniha.getParam1(), pomocnaKniha.getParam2(), pomocnaKniha.getParam3(),
                         pomocnaKniha.getParam4(), pomocnaKniha.getParam5(), pomocnaKniha.getParam6(),
                         pomocnaKniha.getParam7(), pomocnaKniha.getParam8());
                 GUI_hl okno2 = new GUI_hl();
-                Object[] options = {"Ano", "Ne"};            
+                Object[] options = {"Ano", "Ne"};
                 switch (JOptionPane.showOptionDialog(okno2,
                         hlaska,
                         "Mazání záznamu",
@@ -223,8 +296,9 @@ public class GUI_hl extends JFrame {
             }
         }
     }
-    
+
     class udalostOblastNabidkaButtonTrideniNazev implements ActionListener {
+
         @Override
         public void actionPerformed(ActionEvent e) {
             Main.razeniPodleNazvu();
@@ -232,12 +306,14 @@ public class GUI_hl extends JFrame {
     }
 
     class udalostPolozkaMenuPolozka1 implements ActionListener {
+
         @Override
         public void actionPerformed(ActionEvent e) {
         }
     }
 
     class udalostPolozkaMenuKonec implements ActionListener {
+
         @Override
         public void actionPerformed(ActionEvent e) {
             GUI_hl okno2 = new GUI_hl();
@@ -260,12 +336,14 @@ public class GUI_hl extends JFrame {
     }
 
     class udalostPolozkaMenuNapoveda implements ActionListener {
+
         @Override
         public void actionPerformed(ActionEvent e) {
         }
     }
 
     class udalostPolozkaMenuOProgramu implements ActionListener {
+
         @Override
         public void actionPerformed(ActionEvent e) {
             OknoPolozkaMenuOProgramu okno2 = new OknoPolozkaMenuOProgramu();

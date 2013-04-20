@@ -46,6 +46,7 @@ class OknoOblastNabidkaNovy extends JFrame {
     
     public OknoOblastNabidkaNovy(final int pocetZaznamu) {
         this.setDefaultCloseOperation(HIDE_ON_CLOSE);
+        this.setResizable(false);
         setTitle("Nový záznam");
         setBounds(350, 100, 500, 600);
         oblastZadavaniNovy = new JLayeredPane();
@@ -97,7 +98,7 @@ class OknoOblastNabidkaNovy extends JFrame {
                             Integer.parseInt(fieldRok.getText()), fieldVydavatelstvi.getText(), 
                             fieldZanr.getText(), fieldJazyk.getText(), fieldUmisteni.getText());
                     Main.novyZaznamVSQLDatabaziAArrayListu(pomocnaKniha);
-                    dispose();
+                    dispose();  //zavrit okno
                     Main.mainVypisTabulkuDoOblastiHlavni();
                 } catch (Exception ex) {
                     Logger.getLogger(OknoOblastNabidkaUprav.class.getName()).log(Level.SEVERE, null, ex);
@@ -107,7 +108,7 @@ class OknoOblastNabidkaNovy extends JFrame {
         stornoZmeny.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dispose();
+                dispose();  //zavrit okno
             }});
         
         oblastZadavaniNovy.add(popisOvladani);
@@ -170,6 +171,7 @@ class OknoOblastNabidkaUprav extends JFrame {
     
     public OknoOblastNabidkaUprav(final PrvekDatabaze pomKniha) {
         this.setDefaultCloseOperation(HIDE_ON_CLOSE);
+        this.setResizable(false);
         setTitle("Úprava záznamu");
         setBounds(350, 100, 500, 600);
         oblastZadavaniUprav = new JLayeredPane();
@@ -257,7 +259,7 @@ class OknoOblastNabidkaUprav extends JFrame {
                 try {
                     pomocnaKniha = new Kniha(pomKniha.getParam1(), nazev, autor, rok, vydavatelstvi, zanr, jazyk, umisteni);
                     Main.upravZaznamVSQLDatabaziAArrayListu(pomocnaKniha.getParam1(), pomocnaKniha);
-                    dispose();
+                    dispose();  //zavrit okno
                     Main.mainVypisTabulkuDoOblastiHlavni();
                 } catch (Exception ex) {
                     Logger.getLogger(OknoOblastNabidkaUprav.class.getName()).log(Level.SEVERE, null, ex);
@@ -267,7 +269,7 @@ class OknoOblastNabidkaUprav extends JFrame {
         stornoZmeny.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dispose();
+                dispose();  //zavrit okno
             }});
         
         oblastZadavaniUprav.add(popisOvladani);
@@ -302,6 +304,7 @@ class OknoOblastNabidkaUprav extends JFrame {
 class OknoPolozkaMenuOProgramu extends JFrame {    
     public OknoPolozkaMenuOProgramu() {
         this.setDefaultCloseOperation(HIDE_ON_CLOSE);
+        this.setResizable(false);
         setTitle("O programu");
         setBounds(400, 400, 250, 125);
         JTextArea ta = new JTextArea("Rodinná databáze. \n" 
