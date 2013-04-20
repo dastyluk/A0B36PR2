@@ -1,1 +1,11 @@
 Sat Apr 20 16:17:42 CEST 2013 : Síovı server Apache Derby - 10.8.2.2 - (1181258): spuštìn a pøipraven pøijímat pøipojení na portu 1527 v {3} 
+----------------------------------------------------------------
+Sat Apr 20 16:19:33 CEST 2013:
+ Zavádìní serveru Derby verze The Apache Software Foundation - Apache Derby - 10.8.2.2 - (1181258): instance a816c00e-013e-27ce-c0d9-ffff86dd5729
+v adresáøi databáze C:\Users\Lukáš Dastych\Dropbox\ÈVUT FEL\2. sem\Programování 2\Semestrální práce\A0B36PR2\rodinna_databaze\Datab_hl  sun.misc.Launcher$AppClassLoader@108786b 
+
+java.vendor=Oracle Corporation
+java.runtime.version=1.7.0_07-b11
+user.dir=C:\Program Files\Java\jdk1.7.0_07\db
+derby.system.home=C:\Users\Lukáš Dastych\Dropbox\ÈVUT FEL\2. sem\Programování 2\Semestrální práce\A0B36PR2\rodinna_databaze
+Byl spuštìn zavadìè tøídy databáze - derby.database.classpath=''

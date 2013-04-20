@@ -11,11 +11,14 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  * Semestrální práce na A0B36PR2 RODINNÁ DATABÁZE Začátek tvorby: 22.2.2013
@@ -43,7 +46,10 @@ public class GUI_hl extends JFrame implements TableModelListener {
     private JTextField oblastNabidkaFieldSmaz = new JTextField("");
     private JButton oblastNabidkaButtonSmaz = new JButton("Smazat záznam");
     private JButton oblastNabidkaButtonTrideniNazev = new JButton("Třídění podle názvu");
+    private JLabel oblastNabidkaLabelHledej = new JLabel("Hledání podle zadaného výrazu:");
+    private JTextField oblastNabidkaFieldHledej = new JTextField("");
     private JTextField oblastHlaseni = new JTextField("Připraven");
+    private TableRowSorter<TableModel> sorter;
     private boolean provadetZmenyVTab = false;
     private boolean predchoziStavPrepisuTab = false;
 
@@ -53,6 +59,7 @@ public class GUI_hl extends JFrame implements TableModelListener {
         this.setTitle("Rodinná databáze");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
+
         Container kon = getContentPane();
 //        kon.setBackground(Color.lightGray);
         BorderLayout srb = new BorderLayout();
@@ -82,15 +89,47 @@ public class GUI_hl extends JFrame implements TableModelListener {
         oblastHlavni.setPreferredSize(new Dimension(800, 50));
         oblastHlavni.setBorder(BorderFactory.createTitledBorder("Zobrazení databáze"));
         String[] columnNames = {"P.Č.", "Název", "Autor", "Rok", "Vydatelství", "Zanr", "Jazyk", "Umístění"};
-
-        modelTab = new DefaultTableModel(columnNames, 0);
+        modelTab = new DefaultTableModel(columnNames, 0) {
+            @Override
+            public Class getColumnClass(int column) {  //pro spravne trideni po kliknuti na hlavicku sloupce
+                Class returnValue;
+                if ((column >= 0) && (column < getColumnCount())) {
+                    returnValue = getValueAt(0, column).getClass();
+                } else {
+                    returnValue = Object.class;
+                }
+                return returnValue;
+            }
+        };
         oblastHlavniTab = new JTable(modelTab);
+        sorter = new TableRowSorter<TableModel>(modelTab);
+        oblastHlavniTab.setRowSorter(sorter);
         oblastHlavniTab.setColumnSelectionAllowed(true);
         oblastHlavniTab.setFillsViewportHeight(true);
         oblastHlavniTab.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         oblastHlavniTab.setAutoCreateColumnsFromModel(rootPaneCheckingEnabled);
         oblastHlavniTab.getModel().addTableModelListener(this);
-        oblastHlavniScroll.setViewportView(oblastHlavniTab);//(oblastHlavniTab);
+        oblastHlavniTab.getTableHeader().setToolTipText("Klikni pro třídění podle tohoto sloupce.");
+        oblastHlavniTab.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+//        oblastHlavniTab.getSelectionModel().addListSelectionListener(
+//                new ListSelectionListener() {
+//                    @Override
+//                    public void valueChanged(ListSelectionEvent event) {
+//                        int viewRow = oblastHlavniTab.getSelectedRow();
+//                        if (viewRow < 0) {
+//                            //Selection got filtered away.
+//                            oblastNabidkaFieldHledej.setText(""); //pouze pomocny info vypis
+//                        } else {
+//                            int modelRow =
+//                                    oblastHlavniTab.convertRowIndexToModel(viewRow);
+//                            oblastNabidkaFieldHledej.setText(
+//                                    String.format("Select Row view: %d. "
+//                                    + "Select Row model: %d.",
+//                                    viewRow, modelRow)); //pouze pomocny info vypis
+//                        }
+//                    }
+//                });
+        oblastHlavniScroll.setViewportView(oblastHlavniTab);
         oblastHlavniScroll.setBounds(7, 20, 785, 632);
         TableColumn column;
         for (int i = 0; i < 8; i++) {  //NASTAVENI SIRKY SLOUPCU
@@ -172,6 +211,25 @@ public class GUI_hl extends JFrame implements TableModelListener {
         oblastNabidkaButtonSmaz.addActionListener(new udalostOblastNabidkaButtonSmaz());
         oblastNabidkaButtonTrideniNazev.setBounds(30, 400, 200, 25);
         oblastNabidkaButtonTrideniNazev.addActionListener(new udalostOblastNabidkaButtonTrideniNazev());
+        oblastNabidkaLabelHledej.setBounds(15, 596, 200, 20);
+        oblastNabidkaFieldHledej.setBounds(15, 621, 250, 30);        
+        oblastNabidkaFieldHledej.getDocument().addDocumentListener(
+                new DocumentListener() {
+                    @Override
+                    public void changedUpdate(DocumentEvent e) {
+                        sorter.setRowFilter(RowFilter.regexFilter(oblastNabidkaFieldHledej.getText()));
+                    }
+                    @Override
+                    public void insertUpdate(DocumentEvent e) {
+                        sorter.setRowFilter(RowFilter.regexFilter(oblastNabidkaFieldHledej.getText()));
+                    }
+                    @Override
+                    public void removeUpdate(DocumentEvent e) {
+                        sorter.setRowFilter(RowFilter.regexFilter(oblastNabidkaFieldHledej.getText()));
+                    }
+                });        
+        oblastNabidkaLabelHledej.setLabelFor(oblastNabidkaFieldHledej);
+               
         oblastNabidka.add(oblastNabidkaButtonNovy);
         oblastNabidka.add(oblastNabidkaLabelUprav);
         oblastNabidka.add(oblastNabidkaFieldUprav);
@@ -180,8 +238,9 @@ public class GUI_hl extends JFrame implements TableModelListener {
         oblastNabidka.add(oblastNabidkaFieldSmaz);
         oblastNabidka.add(oblastNabidkaButtonSmaz);
         oblastNabidka.add(oblastNabidkaButtonTrideniNazev);
-
-
+        oblastNabidka.add(oblastNabidkaLabelHledej);
+        oblastNabidka.add(oblastNabidkaFieldHledej);
+        
         kon.add(oblastMenu, BorderLayout.NORTH);
         kon.add(oblastHlavni, BorderLayout.WEST);
         kon.add(oblastNabidka, BorderLayout.EAST);
@@ -189,7 +248,7 @@ public class GUI_hl extends JFrame implements TableModelListener {
 
         setContentPane(kon);
     }
-
+    
     @Override
     public void tableChanged(TableModelEvent e) {
         if (provadetZmenyVTab) {
@@ -200,23 +259,19 @@ public class GUI_hl extends JFrame implements TableModelListener {
                 int sloupec = e.getColumn();
 
                 if (sloupec != 0) {
-//                String novyObsah = (String) oblastHlavniTab.getModel().getValueAt(radek, sloupec);                
-//                oblastHlaseni.setText(String.format("Zmena v tabulce - radek: %d, sloupec: %d, %s.", radek + 1, sloupec + 1, novyObsah));
-//                System.out.printf("Zmena v tabulce - radek: %d, sloupec: %d, %s, %d.%n", radek + 1, sloupec + 1, novyObsah, rokk);
-
-                pomocnaKniha = new Kniha(radek + 1, (String) oblastHlavniTab.getModel().getValueAt(radek, 1),
-                        (String) oblastHlavniTab.getModel().getValueAt(radek, 2),
-                        Integer.parseInt(oblastHlavniTab.getModel().getValueAt(radek, 3).toString()),
-                        (String) oblastHlavniTab.getModel().getValueAt(radek, 4),
-                        (String) oblastHlavniTab.getModel().getValueAt(radek, 5),
-                        (String) oblastHlavniTab.getModel().getValueAt(radek, 6),
-                        (String) oblastHlavniTab.getModel().getValueAt(radek, 7));
-                try {
-                    Main.upravZaznamVSQLDatabaziAArrayListu(radek + 1, pomocnaKniha);
-                    //            Main.mainVypisTabulkuDoOblastiHlavni();
-                } catch (Exception ex) {
-                    Logger.getLogger(GUI_hl.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                    pomocnaKniha = new Kniha(radek + 1, (String) oblastHlavniTab.getModel().getValueAt(radek, 1),
+                            (String) oblastHlavniTab.getModel().getValueAt(radek, 2),
+                            Integer.parseInt(oblastHlavniTab.getModel().getValueAt(radek, 3).toString()),
+                            (String) oblastHlavniTab.getModel().getValueAt(radek, 4),
+                            (String) oblastHlavniTab.getModel().getValueAt(radek, 5),
+                            (String) oblastHlavniTab.getModel().getValueAt(radek, 6),
+                            (String) oblastHlavniTab.getModel().getValueAt(radek, 7));
+                    try {
+                        Main.upravZaznamVSQLDatabaziAArrayListu(radek + 1, pomocnaKniha);
+                        //            Main.mainVypisTabulkuDoOblastiHlavni();
+                    } catch (Exception ex) {
+                        Logger.getLogger(GUI_hl.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 } else {
                     predchoziStavPrepisuTab = true;
                     oblastHlavniTab.getModel().setValueAt("" + (radek + 1), radek, sloupec);
@@ -244,7 +299,6 @@ public class GUI_hl extends JFrame implements TableModelListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             int pocetZaznamu = Main.vratPocetZaznamu();
-            //pomocnaKniha = Main.vratZaznamPodleCisla(cisloKnihy);
             OknoOblastNabidkaNovy okno2 = new OknoOblastNabidkaNovy(pocetZaznamu);
             okno2.setVisible(true);
         }

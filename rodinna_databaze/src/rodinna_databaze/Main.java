@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import javax.swing.JFrame;
 
 /**
  * Semestrální práce na A0B36PR2 RODINNÁ DATABÁZE Začátek tvorby: 22.2.2013
@@ -163,8 +164,8 @@ public class Main {
 
         databaze = new Databaze();
         okno1 = new GUI_hl();        
-        okno1.setVisible(true);        
-
+        okno1.setVisible(true);  
+                
         listKnih = new ArrayList<>();
 
         prevedSQLDatabaziNaArrayList();
