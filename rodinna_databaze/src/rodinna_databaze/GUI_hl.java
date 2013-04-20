@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.text.MessageFormat;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
@@ -45,7 +46,11 @@ public class GUI_hl extends JFrame implements TableModelListener {
     private JLabel oblastNabidkaLabelSmaz = new JLabel("Zadej pořadové číslo záznamu:");
     private JTextField oblastNabidkaFieldSmaz = new JTextField("");
     private JButton oblastNabidkaButtonSmaz = new JButton("Smazat záznam");
-    private JButton oblastNabidkaButtonTrideniNazev = new JButton("Třídění podle názvu");
+    private JLabel oblastNabidkaLabelTisk = new JLabel("Vytisknout aktuálně zobrazené záznamy:");
+    private JButton oblastNabidkaButtonTisk = new JButton("Tisk");
+    private JLabel oblastNabidkaLabelExport1 = new JLabel("Exportovat aktuálně zobrazené záznamy");
+    private JLabel oblastNabidkaLabelExport2 = new JLabel("do souboru:");
+    private JButton oblastNabidkaButtonExport = new JButton("Export");
     private JLabel oblastNabidkaLabelHledej = new JLabel("Hledání podle zadaného výrazu:");
     private JTextField oblastNabidkaFieldHledej = new JTextField("");
     private JTextField oblastHlaseni = new JTextField("Připraven");
@@ -209,27 +214,33 @@ public class GUI_hl extends JFrame implements TableModelListener {
         oblastNabidkaFieldSmaz.setBounds(196, 165, 35, 20);
         oblastNabidkaButtonSmaz.setBounds(75, 190, 130, 25);
         oblastNabidkaButtonSmaz.addActionListener(new udalostOblastNabidkaButtonSmaz());
-        oblastNabidkaButtonTrideniNazev.setBounds(30, 400, 200, 25);
-        oblastNabidkaButtonTrideniNazev.addActionListener(new udalostOblastNabidkaButtonTrideniNazev());
+        oblastNabidkaLabelTisk.setBounds(15, 300, 280, 25);
+        oblastNabidkaButtonTisk.setBounds(105, 330, 70, 25);
+        oblastNabidkaButtonTisk.addActionListener(new udalostOblastNabidkaButtonTisk());
+        oblastNabidkaLabelExport1.setBounds(15, 380, 280, 25);
+        oblastNabidkaLabelExport2.setBounds(15, 395, 280, 25);
+        oblastNabidkaButtonExport.setBounds(100, 420, 80, 25);
+        //oblastNabidkaButtonExport.addActionListener(new udalostOblastNabidkaButtonExport());
         oblastNabidkaLabelHledej.setBounds(15, 596, 200, 20);
-        oblastNabidkaFieldHledej.setBounds(15, 621, 250, 30);        
+        oblastNabidkaFieldHledej.setBounds(15, 621, 250, 30);
         oblastNabidkaFieldHledej.getDocument().addDocumentListener(
                 new DocumentListener() {
                     @Override
                     public void changedUpdate(DocumentEvent e) {
                         sorter.setRowFilter(RowFilter.regexFilter(oblastNabidkaFieldHledej.getText()));
                     }
+
                     @Override
                     public void insertUpdate(DocumentEvent e) {
                         sorter.setRowFilter(RowFilter.regexFilter(oblastNabidkaFieldHledej.getText()));
                     }
+
                     @Override
                     public void removeUpdate(DocumentEvent e) {
                         sorter.setRowFilter(RowFilter.regexFilter(oblastNabidkaFieldHledej.getText()));
                     }
-                });        
-        oblastNabidkaLabelHledej.setLabelFor(oblastNabidkaFieldHledej);
-               
+                });
+
         oblastNabidka.add(oblastNabidkaButtonNovy);
         oblastNabidka.add(oblastNabidkaLabelUprav);
         oblastNabidka.add(oblastNabidkaFieldUprav);
@@ -237,10 +248,14 @@ public class GUI_hl extends JFrame implements TableModelListener {
         oblastNabidka.add(oblastNabidkaLabelSmaz);
         oblastNabidka.add(oblastNabidkaFieldSmaz);
         oblastNabidka.add(oblastNabidkaButtonSmaz);
-        oblastNabidka.add(oblastNabidkaButtonTrideniNazev);
+        oblastNabidka.add(oblastNabidkaLabelTisk);
+        oblastNabidka.add(oblastNabidkaButtonTisk);
+        oblastNabidka.add(oblastNabidkaLabelExport1);
+        oblastNabidka.add(oblastNabidkaLabelExport2);
+        oblastNabidka.add(oblastNabidkaButtonExport);
         oblastNabidka.add(oblastNabidkaLabelHledej);
         oblastNabidka.add(oblastNabidkaFieldHledej);
-        
+
         kon.add(oblastMenu, BorderLayout.NORTH);
         kon.add(oblastHlavni, BorderLayout.WEST);
         kon.add(oblastNabidka, BorderLayout.EAST);
@@ -248,7 +263,7 @@ public class GUI_hl extends JFrame implements TableModelListener {
 
         setContentPane(kon);
     }
-    
+
     @Override
     public void tableChanged(TableModelEvent e) {
         if (provadetZmenyVTab) {
@@ -351,11 +366,17 @@ public class GUI_hl extends JFrame implements TableModelListener {
         }
     }
 
-    class udalostOblastNabidkaButtonTrideniNazev implements ActionListener {
+    class udalostOblastNabidkaButtonTisk implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            Main.razeniPodleNazvu();
+            //Main.razeniPodleNazvu();
+            MessageFormat header = new MessageFormat("Strana {0,number,integer}");
+            try {
+                oblastHlavniTab.print(JTable.PrintMode.FIT_WIDTH, header, null);
+            } catch (java.awt.print.PrinterException ee) {
+                System.err.format("Chyba tisku %s%n", ee.getMessage());
+            }
         }
     }
 
