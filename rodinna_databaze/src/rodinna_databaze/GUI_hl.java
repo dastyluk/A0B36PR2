@@ -6,7 +6,11 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
@@ -14,6 +18,8 @@ import java.util.logging.Logger;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
@@ -220,7 +226,7 @@ public class GUI_hl extends JFrame implements TableModelListener {
         oblastNabidkaLabelExport1.setBounds(15, 380, 280, 25);
         oblastNabidkaLabelExport2.setBounds(15, 395, 280, 25);
         oblastNabidkaButtonExport.setBounds(100, 420, 80, 25);
-        //oblastNabidkaButtonExport.addActionListener(new udalostOblastNabidkaButtonExport());
+        oblastNabidkaButtonExport.addActionListener(new udalostOblastNabidkaButtonExport());
         oblastNabidkaLabelHledej.setBounds(15, 596, 200, 20);
         oblastNabidkaFieldHledej.setBounds(15, 621, 250, 30);
         oblastNabidkaFieldHledej.getDocument().addDocumentListener(
@@ -377,6 +383,107 @@ public class GUI_hl extends JFrame implements TableModelListener {
             } catch (java.awt.print.PrinterException ee) {
                 System.err.format("Chyba tisku %s%n", ee.getMessage());
             }
+        }
+    }
+
+    class udalostOblastNabidkaButtonExport implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            List<String> arrayList;
+            arrayList = new ArrayList<>();
+            String zaznam;
+            String nazevSouboru = "";
+            int[] noveOcislovani = new int[1000];
+
+            do {
+                String dialog = JOptionPane.showInputDialog(null, "Zadejte název souboru pro exportování (bez přípony): ", "Exportování záznamů z Databáze knih", JOptionPane.QUESTION_MESSAGE);
+                if (dialog.equals("")) {
+                    JOptionPane.showMessageDialog(null, "Nezadal jste žádný název.\nExport bude proveden do souboru se \nstandatním názvem \"export_tisk.txt\".", "Exportování záznamů z Databáze knih", JOptionPane.PLAIN_MESSAGE);
+                    nazevSouboru = "export_tisk.txt";
+                } else {
+                    //vyhledá existenci hledaneho retezce v retezci
+                    //hodnoty: -1 neobsahuje, >=0 obsahuje    \/:*?"<>|
+                    //if ((poradoveCislo.indexOf(hledanyVyraz)) != -1) {
+                    if ((dialog.indexOf("\\") >= 0) || (dialog.indexOf("/") >= 0) || (dialog.indexOf(":") >= 0)
+                            || (dialog.indexOf("*") >= 0) || (dialog.indexOf("?") >= 0) || (dialog.indexOf("\"") >= 0)
+                            || (dialog.indexOf("<") >= 0) || (dialog.indexOf(">") >= 0) || (dialog.indexOf("|") >= 0)) {
+                        JOptionPane.showMessageDialog(null, "Název souboru nesmí obsahovat \nžádný z následujících znaků\n      \\ / : * ? \" < > |", "Exportování záznamů z Databáze knih", JOptionPane.PLAIN_MESSAGE);
+                    } else {
+                        nazevSouboru = dialog + ".txt";
+                    }
+                }
+            } while (nazevSouboru.equals(""));
+
+
+            arrayList.add(String.format("Exportovany vypis z programu Databaze knih: %n%n"));
+            arrayList.add(String.format("                                                        D A T A B A Z E   K N I H                                                        %n"));
+            arrayList.add(String.format("-----------------------------------------------------------------------------------------------------------------------------------------%n"));
+            arrayList.add(String.format("| %4s  %-44s  %-20s  %-4s  %-17s  %-10s  %-10s  %-10s |%n", "P.C.", "NAZEV", "AUTOR", "ROK", "VYDAVATELSTVI", "ZANR", "JAZYK", "UMISTENI"));
+            arrayList.add(String.format("-----------------------------------------------------------------------------------------------------------------------------------------%n"));
+
+            for (int k = 0; k < oblastHlavniTab.getRowCount(); k++) {
+                noveOcislovani[k] = oblastHlavniTab.convertRowIndexToModel(k);
+            }
+
+            for (int i = 0; i < oblastHlavniTab.getRowCount(); i++) {  //radky
+                zaznam = "| ";
+                for (int j = 0; j < 8; j++) {  //sloupce
+                    if (j == 0) {
+                        zaznam = zaznam + String.format("%4s  ", oblastHlavniTab.getModel().getValueAt(noveOcislovani[i], j));
+                    } else {
+                        if (j == 1) {
+                            zaznam = zaznam + String.format("%-44s  ", oblastHlavniTab.getModel().getValueAt(noveOcislovani[i], j));
+                        } else {
+                            if (j == 2) {
+                                zaznam = zaznam + String.format("%-20s  ", oblastHlavniTab.getModel().getValueAt(noveOcislovani[i], j));
+                            } else {
+                                if (j == 3) {
+                                    zaznam = zaznam + String.format("%-4s  ", oblastHlavniTab.getModel().getValueAt(noveOcislovani[i], j));
+                                } else {
+                                    if (j == 4) {
+                                        zaznam = zaznam + String.format("%-17s  ", oblastHlavniTab.getModel().getValueAt(noveOcislovani[i], j));
+                                    } else {
+                                        if (j == 5) {
+                                            zaznam = zaznam + String.format("%-10s  ", oblastHlavniTab.getModel().getValueAt(noveOcislovani[i], j));
+                                        } else {
+                                            if (j == 6) {
+                                                zaznam = zaznam + String.format("%-10s  ", oblastHlavniTab.getModel().getValueAt(noveOcislovani[i], j));
+                                            } else {
+                                                zaznam = zaznam + String.format("%-10s ", oblastHlavniTab.getModel().getValueAt(noveOcislovani[i], j));
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                zaznam = zaznam + (String.format("|%n"));
+                arrayList.add(zaznam);
+                zaznam = "";
+            }
+            arrayList.add(String.format("-----------------------------------------------------------------------------------------------------------------------------------------%n"));
+
+            try {
+                //inicializace textoveho souboru exportu pro cteni a zapis
+                //pro postupne ukladani upravene kopie souboru dat_knih.bin     
+                File exportTisk = new File(nazevSouboru);
+                try (RandomAccessFile exportTiskRW = new RandomAccessFile(exportTisk, "rw")) {
+                    exportTiskRW.setLength(0);  //smazani obsahu souboru exportTisk.txt
+
+                    for (Iterator<String> it = arrayList.iterator(); it.hasNext();) {
+                        zaznam = it.next();
+                        System.out.print(zaznam);
+                        exportTiskRW.writeBytes(zaznam);
+                    }
+                    exportTiskRW.close();
+                }
+            } catch (IOException ee) {
+                System.out.println("Chyba pri exportovani do souboru (exportTisk.txt).");
+            }
+
+
         }
     }
 

@@ -301,6 +301,7 @@ class OknoOblastNabidkaUprav extends JFrame {
     }
 }
 
+
 class OknoPolozkaMenuOProgramu extends JFrame {    
     public OknoPolozkaMenuOProgramu() {
         this.setDefaultCloseOperation(HIDE_ON_CLOSE);
