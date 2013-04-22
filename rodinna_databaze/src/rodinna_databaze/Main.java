@@ -18,7 +18,6 @@ import java.util.List;
 public class Main {
 
     static GUI_hl okno1;
-    static Databaze databaze;
     static PrvekDatabaze pomocnaKniha;
     static List<PrvekDatabaze> listKnih;
     static int pocetKnih = 0;
@@ -161,7 +160,6 @@ public class Main {
      */
     public static void main(String[] args) throws Exception {
 
-        databaze = new Databaze();
         okno1 = new GUI_hl();        
         okno1.setVisible(true);  
                 
