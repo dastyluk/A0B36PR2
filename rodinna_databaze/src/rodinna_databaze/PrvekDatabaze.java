@@ -74,90 +74,127 @@ public abstract class PrvekDatabaze {
     String param7;
     String param8;
 
-    public PrvekDatabaze(int param1, String param2, String param3, int param4, String param5, String param6, String param7, String param8) {
-        this.param1 = param1;
-        this.param2 = param2;
-        this.param3 = param3;
-        this.param4 = param4;
-        this.param5 = param5;
-        this.param6 = param6;
-        this.param7 = param7;
-        this.param8 = param8;
-    }
+//    public PrvekDatabaze(int param1, String param2, String param3, int param4, String param5, String param6, String param7, String param8) {
+//        this.param1 = param1;
+//        this.param2 = param2;
+//        this.param3 = param3;
+//        this.param4 = param4;
+//        this.param5 = param5;
+//        this.param6 = param6;
+//        this.param7 = param7;
+//        this.param8 = param8;
+//    }
 
-    public int getParam1() {
-        return param1;
-    }
-
-    public String getParam2() {
-        return param2;
-    }
-
-    public String getParam3() {
-        return param3;
-    }
-
-    public int getParam4() {
-        return param4;
-    }
-
-    public String getParam5() {
-        return param5;
-    }
-
-    public String getParam6() {
-        return param6;
-    }
-
-    public String getParam7() {
-        return param7;
-    }
-
-    public String getParam8() {
-        return param8;
-    }
-
-    public void setParam1(int param1) {
-        this.param1 = param1;
-    }
-
-    public void setParam2(String param2) {
-        this.param2 = param2;
-    }
-
-    public void setParam3(String param3) {
-        this.param3 = param3;
-    }
-
-    public void setParam4(int param4) {
-        this.param4 = param4;
-    }
-
-    public void setParam5(String param5) {
-        this.param5 = param5;
-    }
-
-    public void setParam6(String param6) {
-        this.param6 = param6;
-    }
-
-    public void setParam7(String param7) {
-        this.param7 = param7;
-    }
-
-    public void setParam8(String param8) {
-        this.param8 = param8;
-    }
-    
-    public int compareTo(PrvekDatabaze o) {
-        return param1 - o.param1;
-    }
-
-    @Override
-    public String toString() {
-        return param1 + " - " + param2 + " - " + param3 + " - " + param4 + " - " + param5 + " - " + param6 + " - " + param7 + " - " + param8;
-    }
-    
-    
-    
+    abstract int getParam1();
+    abstract String getParam2();
+    abstract String getParam3();
+    abstract int getParam4();
+    abstract String getParam5();
+    abstract String getParam6();
+    abstract String getParam7();
+    abstract String getParam8();
+    abstract void setParam1(int param1);
+    abstract void setParam2(String param2);
+    abstract void setParam3(String param3);
+    abstract void setParam4(int param4);
+    abstract void setParam5(String param5);
+    abstract void setParam6(String param6);
+    abstract void setParam7(String param7);
+    abstract void setParam8(String param8);    
+    abstract int compareTo(PrvekDatabaze o);
 }
+
+//public abstract class PrvekDatabaze {
+//    int param1;
+//    String param2;
+//    String param3;
+//    int param4;
+//    String param5;
+//    String param6;
+//    String param7;
+//    String param8;
+//
+//    public PrvekDatabaze(int param1, String param2, String param3, int param4, String param5, String param6, String param7, String param8) {
+//        this.param1 = param1;
+//        this.param2 = param2;
+//        this.param3 = param3;
+//        this.param4 = param4;
+//        this.param5 = param5;
+//        this.param6 = param6;
+//        this.param7 = param7;
+//        this.param8 = param8;
+//    }
+//
+//    public int getParam1() {
+//        return param1;
+//    }
+//
+//    public String getParam2() {
+//        return param2;
+//    }
+//
+//    public String getParam3() {
+//        return param3;
+//    }
+//
+//    public int getParam4() {
+//        return param4;
+//    }
+//
+//    public String getParam5() {
+//        return param5;
+//    }
+//
+//    public String getParam6() {
+//        return param6;
+//    }
+//
+//    public String getParam7() {
+//        return param7;
+//    }
+//
+//    public String getParam8() {
+//        return param8;
+//    }
+//
+//    public void setParam1(int param1) {
+//        this.param1 = param1;
+//    }
+//
+//    public void setParam2(String param2) {
+//        this.param2 = param2;
+//    }
+//
+//    public void setParam3(String param3) {
+//        this.param3 = param3;
+//    }
+//
+//    public void setParam4(int param4) {
+//        this.param4 = param4;
+//    }
+//
+//    public void setParam5(String param5) {
+//        this.param5 = param5;
+//    }
+//
+//    public void setParam6(String param6) {
+//        this.param6 = param6;
+//    }
+//
+//    public void setParam7(String param7) {
+//        this.param7 = param7;
+//    }
+//
+//    public void setParam8(String param8) {
+//        this.param8 = param8;
+//    }
+//    
+//    public int compareTo(PrvekDatabaze o) {
+//        return param1 - o.param1;
+//    }
+//
+//    @Override
+//    public String toString() {
+//        return param1 + " - " + param2 + " - " + param3 + " - " + param4 + " - " + param5 + " - " + param6 + " - " + param7 + " - " + param8;
+//    }    
+//}

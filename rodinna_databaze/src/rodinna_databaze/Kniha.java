@@ -66,136 +66,103 @@ import java.io.*;
  * @author Lukáš Dastych
  */
 class Kniha extends PrvekDatabaze implements Serializable {
-
-    int poradoveCislo;
-    String nazevKnihy;
-    String autorKnihy;
-    int rokKnihy;
-    String vydavatelstviKnihy;
-    String zanrKnihy;
-    String jazykKnihy;
-    String umisteniKnihy;
-
-    /*public Kniha() {  //pro vlozeni na konec souboru
-        this.poradoveCislo = 0;        
-        this.nazevKnihy = "";
-        this.autorKnihy = "";
-        this.rokKnihy = 0;
-        this.vydavatelstviKnihy = "";
-        this.zanrKnihy = "";
-        this.jazykKnihy = "";
-        this.umisteniKnihy = "";
-    }*/
-
-    /*public Kniha(int poradoveCislo) {  //konstruktor pro smazany zaznam
-        this.poradoveCislo = poradoveCislo;
-        this.nazevKnihy = "--zaznam smazan--";
-        this.autorKnihy = "";
-        this.rokKnihy = 0;
-        this.vydavatelstviKnihy = "";
-        this.zanrKnihy = "";
-        this.jazykKnihy = "";
-        this.umisteniKnihy = "";
-    }*/
-    
-    
-
-    public Kniha(int poradoveCislo, String nazevKnihy, String autorKnihy, int rokKnihy, String vydavatelstviKnihy, String zanrKnihy, String jazykKnihy, String umisteniKnihy) {
-        //hlavni konstruktor
-        /*this.poradoveCislo = poradoveCislo;
-        this.nazevKnihy = nazevKnihy;
-        this.autorKnihy = autorKnihy;
-        this.rokKnihy = rokKnihy;
-        this.vydavatelstviKnihy = vydavatelstviKnihy;
-        this.zanrKnihy = zanrKnihy;
-        this.jazykKnihy = jazykKnihy;
-        this.umisteniKnihy = umisteniKnihy;*/
-        super(poradoveCislo, nazevKnihy, autorKnihy, rokKnihy, vydavatelstviKnihy, zanrKnihy, jazykKnihy, umisteniKnihy);
+    public Kniha(int poradoveCislo, String nazevKnihy, String autorKnihy, int rokKnihy, 
+            String vydavatelstviKnihy, String zanrKnihy, String jazykKnihy, String umisteniKnihy) {
+        this.param1 = poradoveCislo;
+        this.param2 = nazevKnihy;
+        this.param3 = autorKnihy;
+        this.param4 = rokKnihy;
+        this.param5 = vydavatelstviKnihy;
+        this.param6 = zanrKnihy;
+        this.param7 = jazykKnihy;
+        this.param8 = umisteniKnihy;
+//        super(poradoveCislo, nazevKnihy, autorKnihy, rokKnihy, vydavatelstviKnihy, zanrKnihy, jazykKnihy, umisteniKnihy);
     }
 
-//    @Override
-//    public void setParam1(int poradoveCislo) {
-//        this.poradoveCislo = poradoveCislo;
-//    }
-//
-//    @Override
-//    public void setParam2(String nazevKnihy) {
-//        this.nazevKnihy = nazevKnihy;
-//    }
-//
-//    @Override
-//    public void setParam3(String autorKnihy) {
-//        this.autorKnihy = autorKnihy;
-//    }
-//
-//    @Override
-//    public void setParam4(int rokKnihy) {
-//        this.rokKnihy = rokKnihy;
-//    }
-//
-//    @Override
-//    public void setParam5(String vydavatelstviKnihy) {
-//        this.vydavatelstviKnihy = vydavatelstviKnihy;
-//    }
-//
-//    @Override
-//    public void setParam6(String zanrKnihy) {
-//        this.zanrKnihy = zanrKnihy;
-//    }
-//
-//    @Override
-//    public void setParam7(String jazykKnihy) {
-//        this.jazykKnihy = jazykKnihy;
-//    }
-//
-//    @Override
-//    public void setParam8(String umisteniKnihy) {
-//        this.umisteniKnihy = umisteniKnihy;
-//    }
-//
-//    @Override
-//    public int getParam1() {
-//        return poradoveCislo;
-//    }
-//
-//    @Override
-//    public String getParam2() {
-//        return nazevKnihy;
-//    }
-//
-//    @Override
-//    public String getParam3() {
-//        return autorKnihy;
-//    }
-//
-//    @Override
-//    public int getParam4() {
-//        return rokKnihy;
-//    }
-//
-//    @Override
-//    public String getParam5() {
-//        return vydavatelstviKnihy;
-//    }
-//
-//    @Override
-//    public String getParam6() {
-//        return zanrKnihy;
-//    }
-//
-//    @Override
-//    public String getParam7() {
-//        return jazykKnihy;
-//    }
-//
-//    @Override
-//    public String getParam8() {
-//        return umisteniKnihy;
-//    }
-//    
-//    public int compareTo(Kniha o) {
-//        return poradoveCislo - o.poradoveCislo;
-//    }
+    @Override
+    public void setParam1(int poradoveCislo) {
+        this.param1 = poradoveCislo;
+    }
+
+    @Override
+    public void setParam2(String nazevKnihy) {
+        this.param2 = nazevKnihy;
+    }
+
+    @Override
+    public void setParam3(String autorKnihy) {
+        this.param3 = autorKnihy;
+    }
+
+    @Override
+    public void setParam4(int rokKnihy) {
+        this.param4 = rokKnihy;
+    }
+
+    @Override
+    public void setParam5(String vydavatelstviKnihy) {
+        this.param5 = vydavatelstviKnihy;
+    }
+
+    @Override
+    public void setParam6(String zanrKnihy) {
+        this.param6 = zanrKnihy;
+    }
+
+    @Override
+    public void setParam7(String jazykKnihy) {
+        this.param7 = jazykKnihy;
+    }
+
+    @Override
+    public void setParam8(String umisteniKnihy) {
+        this.param8 = umisteniKnihy;
+    }
+
+    @Override
+    public int getParam1() {
+        return param1;
+    }
+
+    @Override
+    public String getParam2() {
+        return param2;
+    }
+
+    @Override
+    public String getParam3() {
+        return param3;
+    }
+
+    @Override
+    public int getParam4() {
+        return param4;
+    }
+
+    @Override
+    public String getParam5() {
+        return param5;
+    }
+
+    @Override
+    public String getParam6() {
+        return param6;
+    }
+
+    @Override
+    public String getParam7() {
+        return param7;
+    }
+
+    @Override
+    public String getParam8() {
+        return param8;
+    }
+    
+    @Override
+    public int compareTo(PrvekDatabaze o) {
+        return param1 - o.param1;
+    }
 
     @Override
     public String toString() {
@@ -204,6 +171,6 @@ class Kniha extends PrvekDatabaze implements Serializable {
         } else {
             return poradoveCislo + " - " + nazevKnihy + " - " + autorKnihy + " - " + rokKnihy + " - " + vydavatelstviKnihy + " - " + zanrKnihy + " - " + jazykKnihy + " - " + umisteniKnihy;
         }*/
-        return poradoveCislo + " - " + nazevKnihy + " - " + autorKnihy + " - " + rokKnihy + " - " + vydavatelstviKnihy + " - " + zanrKnihy + " - " + jazykKnihy + " - " + umisteniKnihy;
+        return param1 + " - " + param2 + " - " + param3 + " - " + param4 + " - " + param5 + " - " + param6 + " - " + param7 + " - " + param8;
     }    
 }

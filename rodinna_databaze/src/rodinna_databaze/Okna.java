@@ -194,7 +194,7 @@ class OknoOblastNabidkaUprav extends JFrame {
         nazev = pomKniha.getParam2();
         String stringNazevStary = String.format(nazev);
         labelNazevStary = new JLabel(stringNazevStary);
-        labelNazevStary.setBounds(200, 160, 200, 20);
+        labelNazevStary.setBounds(200, 160, 250, 20);
         labelNazev = new JLabel("Název knihy:");
         labelNazev.setBounds(10, 180, 160, 20);
         fieldNazev = new JTextField("");
