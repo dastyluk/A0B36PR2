@@ -1,35 +1,36 @@
 Exportovany vypis z programu Databaze knih: 
 
-                                                        D A T A B A Z E   K N I H                                                        
------------------------------------------------------------------------------------------------------------------------------------------
-| P.C.  NAZEV                                         AUTOR                 ROK   VYDAVATELSTVI      ZANR        JAZYK       UMISTENI   |
------------------------------------------------------------------------------------------------------------------------------------------
-|    1  Kniha 1                                       Autor 1               1900  Vydavatelstvi 1    Zanr 1      Jazyk 1     Umisteni 1 |
-|    2  Kniha 2                                       Autor 2               1902  Vydavatelstvi 2    Zanr 2      Jazyk 2     Umisteni 2 |
-|    3  Kniha 3                                       Autor 3               1903  Vydavatelstvi 3    Zanr 3      Jazyk 3     Umisteni 3 |
-|    4  Kniha 4                                       Autor 4               1904  Vydavatelstvi 4    Zanr 4      Jazyk 4     Umisteni 4 |
-|    5  Kniha 5                                       Autor 5               1905  Vydavatelstvi 5    Zanr 5      Jazyk 5     Umisteni 5 |
-|    6  Kniha 6                                       Autor 6               1906  Vydavatelstvi 6    Zanr 6      Jazyk 6     Umisteni 6 |
-|    7  Kniha 7                                       Autor 7               1907  Vydavatelstvi 7    Zanr 7      Jazyk 7     Umisteni 7 |
-|    8  Kniha 8                                       Autor 8               1908  Vydavatelstvi 8    Zanr 8      Jazyk 8     Umisteni 8 |
-|    9  Kniha 9                                       Autor 9               1909  Vydavatelstvi 9    Zanr 9      Jazyk 9     Umisteni 9 |
-|   10  Kniha 10                                      Autor 10              1910  Vydavatelstvi 10   Zanr 10     Jazyk 10    Umisten 10 |
-|   11  Kniha 11                                      Autor 11              1911  Vydavatelstvi 11   Zanr 11     Jazyk 11    Umisten 11 |
-|   12  Kniha 12                                      Autor 12              1912  Vydavatelstvi 12   Zanr 12     Jazyk 12    Umisten 12 |
-|   13  Kniha 13                                      Autor 13              1913  Vydavatelstvi 13   Zanr 13     Jazyk 13    Umisten 13 |
-|   14  Kniha 14                                      Autor 14              1914  Vydavatelstvi 14   Zanr 14     Jazyk 14    Umisten 14 |
-|   15  Matematika pro SO`                            Autor 15              1915  Vydavatelstvi 15   Zanr 15     Jazyk 15    Umisten 15 |
-|   16  Nazev 16                                      Autor 16              1916  Vydavatelstvi 16   Zanr 16     Jazyk 16    Umisten 16 |
-|   17  ZÁZNAM SMAZÁN!                                -                     0     -                  -           -           -          |
-|   18  Kniha 15                                      Autor15               1915  Vydavatelstvi 15   Zanr15      Jazyk15     Umisten15  |
-|   19  Kniha 15                                      Autor15               1915  Vydavatelstvi 15   Zanr15      Jazyk15     Umisten15  |
-|   20  ZÁZNAM SMAZÁN!                                -                     0     -                  -           -           -          |
-|   21  A1                                            B2                    1234  C4                 D5          E6          F7         |
-|   22  D                                             S                     2     S                  S           S           S          |
-|   23  Nazev                                         Autor                 1910  Vydav              Zanr        Jazyk       3A0        |
-|   24  Nazev 1                                       Autor1                1923  Vydav1             Zanr1       Jazyk1      3A1        |
-|   25  Nazev 2                                       Autor2                1902  Vydav2             Zanr2       Jazyk2      3A2        |
-|   26  Neco 1                                        Nekdo                 1923  Nejake             Nejaky      Nejaky      Nejake     |
-|   27  Diferenciální pocet funkcí více promenných    Jan Hamhalter         2005  Ceská technika     Odborný     Ceatina     6C1        |
-|   28  Máj                                           Karel Hynek Mácha     1975  Mladá fronta       poezie      ceatina     6A2        |
------------------------------------------------------------------------------------------------------------------------------------------
+                                                         D A T A B A Z E   K N I H                                                         
+--------------------------------------------------------------------------------------------------------------------------------------------
+| P.C.  NAZEV                                         AUTOR                 ROK   VYDAVATELSTVI         ZANR        JAZYK       UMISTENI   |
+--------------------------------------------------------------------------------------------------------------------------------------------
+|    1  Kniha 1                                       Autor 1               1900  Vydavatelstvi 1       Zanr 1      Jazyk 1     Umisteni 1 |
+|    2  Kniha 2                                       Autor 2               1902  Vydavatelstvi 2       Zanr 2      Jazyk 2     Umisteni 2 |
+|    3  Kniha 3                                       Autor 3               1903  Vydavatelstvi 3       Zanr 3      Jazyk 3     Umisteni 3 |
+|    4  Kniha 4                                       Autor 4               1904  Vydavatelstvi 4       Zanr 4      Jazyk 4     Umisteni 4 |
+|    5  Kniha 5                                       Autor 5               1905  Vydavatelstvi 5       Zanr 5      Jazyk 5     Umisteni 5 |
+|    6  Kniha 6                                       Autor 6               1906  Vydavatelstvi 6       Zanr 6      Jazyk 6     Umisteni 6 |
+|    7  Kniha 7                                       Autor 7               1907  Vydavatelstvi 7       Zanr 7      Jazyk 7     Umisteni 7 |
+|    8  Kniha 8                                       Autor 8               1908  Vydavatelstvi 8       Zanr 8      Jazyk 8     Umisteni 8 |
+|    9  Kniha 9                                       Autor 9               1909  Vydavatelstvi 9       Zanr 9      Jazyk 9     Umisteni 9 |
+|   10  Kniha 10                                      Autor 10              1910  Vydavatelstvi 10      Zanr 10     Jazyk 10    Umisten 10 |
+|   11  Kniha 11                                      Autor 11              1911  Vydavatelstvi 11      Zanr 11     Jazyk 11    Umisten 11 |
+|   12  Kniha 12                                      Autor 12              1912  Vydavatelstvi 12      Zanr 12     Jazyk 12    Umisten 12 |
+|   13  Kniha 13                                      Autor 13              1913  Vydavatelstvi 13      Zanr 13     Jazyk 13    Umisten 13 |
+|   14  Kniha 14                                      Autor 14              1914  Vydavatelstvi 14      Zanr 14     Jazyk 14    Umisten 14 |
+|   15  Matematika pro SO`                            Autor 15              1915  Vydavatelstvi 15      Zanr 15     Jazyk 15    Umisten 15 |
+|   16  Nazev 16                                      Autor 16              1916  Vydavatelstvi 16      Zanr 16     Jazyk 16    Umisten 16 |
+|   17  ZÁZNAM SMAZÁN!                                -                     0     -                     -           -           -          |
+|   18  Kniha 15                                      Autor15               1915  Vydavatelstvi 15      Zanr15      Jazyk15     Umisten15  |
+|   19  Kniha 15                                      Autor15               1915  Vydavatelstvi 15      Zanr15      Jazyk15     Umisten15  |
+|   20  ZÁZNAM SMAZÁN!                                -                     0     -                     -           -           -          |
+|   21  A1                                            B2                    1234  C4                    D5          E6          F7         |
+|   22  D                                             S                     2     S                     S           S           S          |
+|   23  Nazev                                         Autor                 1910  Vydav                 Zanr        Jazyk       3A0        |
+|   24  Nazev 1                                       Autor1                1923  Vydav1                Zanr1       Jazyk1      3A1        |
+|   25  Nazev 2                                       Autor2                1902  Vydav2                Zanr2       Jazyk2      3A2        |
+|   26  Neco 1                                        Nekdo                 1923  Nejake                Nejaky      Nejaky      Nejake     |
+|   27  Diferenciální pocet funkcí více promenných    Jan Hamhalter         2005  Ceská technika        Odborný     Ceatina     6B1        |
+|   28  Máj                                           Karel Hynek Mácha     1975  Mladá fronta          poezie      ceatina     1A2        |
+|   29  Matematická logika                            Marie Demlová         2002  Vydavatelstvi CVUT    Odborný     Cestina     6B2        |
+--------------------------------------------------------------------------------------------------------------------------------------------

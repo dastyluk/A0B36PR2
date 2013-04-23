@@ -6,11 +6,6 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.io.File;
-import java.io.IOException;
-import java.io.RandomAccessFile;
-import java.text.MessageFormat;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
@@ -70,7 +65,6 @@ public class GUI_hl extends JFrame implements TableModelListener {
         this.setResizable(false);
 
         Container kon = getContentPane();
-//        kon.setBackground(Color.lightGray);
         BorderLayout srb = new BorderLayout();
         kon.setLayout(srb);
 
@@ -120,24 +114,6 @@ public class GUI_hl extends JFrame implements TableModelListener {
         oblastHlavniTab.getModel().addTableModelListener(this);
         oblastHlavniTab.getTableHeader().setToolTipText("Klikni pro třídění podle tohoto sloupce.");
         oblastHlavniTab.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-//        oblastHlavniTab.getSelectionModel().addListSelectionListener(
-//                new ListSelectionListener() {
-//                    @Override
-//                    public void valueChanged(ListSelectionEvent event) {
-//                        int viewRow = oblastHlavniTab.getSelectedRow();
-//                        if (viewRow < 0) {
-//                            //Selection got filtered away.
-//                            oblastNabidkaFieldHledej.setText(""); //pouze pomocny info vypis
-//                        } else {
-//                            int modelRow =
-//                                    oblastHlavniTab.convertRowIndexToModel(viewRow);
-//                            oblastNabidkaFieldHledej.setText(
-//                                    String.format("Select Row view: %d. "
-//                                    + "Select Row model: %d.",
-//                                    viewRow, modelRow)); //pouze pomocny info vypis
-//                        }
-//                    }
-//                });
         oblastHlavniScroll.setViewportView(oblastHlavniTab);
         oblastHlavniScroll.setBounds(7, 20, 785, 632);
         TableColumn column;
@@ -317,9 +293,7 @@ public class GUI_hl extends JFrame implements TableModelListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            int pocetZaznamu = Main.vratPocetZaznamu();
-            OknoOblastNabidkaNovy okno2 = new OknoOblastNabidkaNovy(pocetZaznamu);
-            okno2.setVisible(true);
+            ObsluhaUdalosti.udalostMetOblastNabidkaButtonNovy();
         }
     }
 
@@ -327,11 +301,7 @@ public class GUI_hl extends JFrame implements TableModelListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            int cisloKnihy = Integer.parseInt(oblastNabidkaFieldUprav.getText());
-            pomocnaKniha = Main.vratZaznamPodleCisla(cisloKnihy);
-            OknoOblastNabidkaUprav okno2 = new OknoOblastNabidkaUprav(pomocnaKniha);
-            okno2.setVisible(true);
-            oblastNabidkaFieldUprav.setText("");
+            ObsluhaUdalosti.udalostMetOblastNabidkaButtonUprav(oblastNabidkaFieldUprav);
         }
     }
 
@@ -339,34 +309,7 @@ public class GUI_hl extends JFrame implements TableModelListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            try {
-                int cisloKnihy = Integer.parseInt(oblastNabidkaFieldSmaz.getText());
-                oblastNabidkaFieldSmaz.setText("");
-                pomocnaKniha = Main.vratZaznamPodleCisla(cisloKnihy);
-                String hlaska = String.format("Opravdu chcete smazat tento záznam? \n %d - %s - %s - %d - %s - %s - %s - %s",
-                        pomocnaKniha.getParam1(), pomocnaKniha.getParam2(), pomocnaKniha.getParam3(),
-                        pomocnaKniha.getParam4(), pomocnaKniha.getParam5(), pomocnaKniha.getParam6(),
-                        pomocnaKniha.getParam7(), pomocnaKniha.getParam8());
-                GUI_hl okno2 = new GUI_hl();
-                Object[] options = {"Ano", "Ne"};
-                switch (JOptionPane.showOptionDialog(okno2,
-                        hlaska,
-                        "Mazání záznamu",
-                        JOptionPane.YES_NO_OPTION,
-                        JOptionPane.QUESTION_MESSAGE,
-                        null, //nepouzivat zakladni ikony
-                        options, //napisy ikon
-                        options[0])) {  //defaultni ikona             
-                    //showConfirmDialog     JOptionPane.ERROR_MESSAGE)){
-                    case JOptionPane.OK_OPTION:  //ukonci program
-                        pomocnaKniha = new Kniha(cisloKnihy, "ZÁZNAM SMAZÁN!", "-", 0, "-", "-", "-", "-");
-                        Main.upravZaznamVSQLDatabaziAArrayListu(cisloKnihy, pomocnaKniha);
-                        Main.mainVypisTabulkuDoOblastiHlavni();
-                    case JOptionPane.CANCEL_OPTION:  //rozmyslel si to, nedelej nic.
-                }
-            } catch (Exception ex) {
-                Logger.getLogger(GUI_hl.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            ObsluhaUdalosti.udalostMetOblastNabidkaButtonSmaz(oblastNabidkaFieldSmaz);
         }
     }
 
@@ -374,13 +317,7 @@ public class GUI_hl extends JFrame implements TableModelListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            //Main.razeniPodleNazvu();
-            MessageFormat header = new MessageFormat("Strana {0,number,integer}");
-            try {
-                oblastHlavniTab.print(JTable.PrintMode.FIT_WIDTH, header, null);
-            } catch (java.awt.print.PrinterException ee) {
-                System.err.format("Chyba tisku %s%n", ee.getMessage());
-            }
+            ObsluhaUdalosti.udalostMetOblastNabidkaButtonTisk(oblastHlavniTab);
         }
     }
 
@@ -404,7 +341,7 @@ public class GUI_hl extends JFrame implements TableModelListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            ObsluhaUdalosti.udalostMetPolozkaMenuKonec();            
+            ObsluhaUdalosti.udalostMetPolozkaMenuKonec();
         }
     }
 

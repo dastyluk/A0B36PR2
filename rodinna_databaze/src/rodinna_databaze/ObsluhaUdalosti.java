@@ -3,11 +3,15 @@ package rodinna_databaze;
 import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 
 /**
  *
@@ -15,7 +19,75 @@ import javax.swing.JTable;
  */
 public class ObsluhaUdalosti {
 
+    static PrvekDatabaze kniha;
     static JTable table;
+    static JTextField field;
+
+    static void udalostMetOblastNabidkaButtonNovy() {
+        int pocetZaznamu = Main.vratPocetZaznamu();
+        OknoOblastNabidkaNovy okno2 = new OknoOblastNabidkaNovy(pocetZaznamu);
+        okno2.setVisible(true);
+    }
+
+    static void udalostMetOblastNabidkaButtonUprav(JTextField tf) {
+        field = tf;
+        int cisloKnihy = Integer.parseInt(field.getText());
+        field.setText("");
+        kniha = Main.vratZaznamPodleCisla(cisloKnihy);
+        if (kniha.getParam1() == 0) {
+            JOptionPane.showMessageDialog(null, "Záznam s tímto pořadovým číslem neexistuje!", "Mazání záznamu", JOptionPane.ERROR_MESSAGE);
+        } else {
+            OknoOblastNabidkaUprav okno2 = new OknoOblastNabidkaUprav(kniha);
+            okno2.setVisible(true);
+        }
+
+    }
+
+    static void udalostMetOblastNabidkaButtonSmaz(JTextField tf) {
+        field = tf;
+        try {
+            int cisloKnihy = Integer.parseInt(field.getText());
+            field.setText("");
+            kniha = Main.vratZaznamPodleCisla(cisloKnihy);
+            if (kniha.getParam1() == 0) {
+                JOptionPane.showMessageDialog(null, "Záznam s tímto pořadovým číslem neexistuje!", "Mazání záznamu", JOptionPane.ERROR_MESSAGE);
+            } else {
+                String hlaska = String.format("Opravdu chcete smazat tento záznam? \n %d - %s - %s - %d - %s - %s - %s - %s",
+                        kniha.getParam1(), kniha.getParam2(), kniha.getParam3(),
+                        kniha.getParam4(), kniha.getParam5(), kniha.getParam6(),
+                        kniha.getParam7(), kniha.getParam8());
+                GUI_hl okno2 = new GUI_hl();
+                Object[] options = {"Ano", "Ne"};
+                switch (JOptionPane.showOptionDialog(okno2,
+                        hlaska,
+                        "Mazání záznamu",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE,
+                        null, //nepouzivat zakladni ikony
+                        options, //napisy ikon
+                        options[0])) {  //defaultni ikona             
+                    //showConfirmDialog     JOptionPane.ERROR_MESSAGE)){
+                    case JOptionPane.OK_OPTION:  //ukonci program
+                        kniha = new Kniha(cisloKnihy, "ZÁZNAM SMAZÁN!", "-", 0, "-", "-", "-", "-");
+                        Main.upravZaznamVSQLDatabaziAArrayListu(cisloKnihy, kniha);
+                        Main.mainVypisTabulkuDoOblastiHlavni();
+                    case JOptionPane.CANCEL_OPTION:  //rozmyslel si to, nedelej nic.
+                }
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(GUI_hl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    static void udalostMetOblastNabidkaButtonTisk(JTable tab) {
+        table = tab;
+        MessageFormat header = new MessageFormat("Strana {0,number,integer}");
+        try {
+            table.print(JTable.PrintMode.FIT_WIDTH, header, null);
+        } catch (java.awt.print.PrinterException ee) {
+            System.err.format("Chyba tisku %s%n", ee.getMessage());
+        }
+    }
 
     static void udalostMetOblastNabidkaButtonExport(JTable tab) {
         table = tab;
@@ -46,10 +118,10 @@ public class ObsluhaUdalosti {
 
 
         arrayList.add(String.format("Exportovany vypis z programu Databaze knih: %n%n"));
-        arrayList.add(String.format("                                                        D A T A B A Z E   K N I H                                                        %n"));
-        arrayList.add(String.format("-----------------------------------------------------------------------------------------------------------------------------------------%n"));
-        arrayList.add(String.format("| %4s  %-44s  %-20s  %-4s  %-17s  %-10s  %-10s  %-10s |%n", "P.C.", "NAZEV", "AUTOR", "ROK", "VYDAVATELSTVI", "ZANR", "JAZYK", "UMISTENI"));
-        arrayList.add(String.format("-----------------------------------------------------------------------------------------------------------------------------------------%n"));
+        arrayList.add(String.format("                                                         D A T A B A Z E   K N I H                                                         %n"));
+        arrayList.add(String.format("--------------------------------------------------------------------------------------------------------------------------------------------%n"));
+        arrayList.add(String.format("| %4s  %-44s  %-20s  %-4s  %-20s  %-10s  %-10s  %-10s |%n", "P.C.", "NAZEV", "AUTOR", "ROK", "VYDAVATELSTVI", "ZANR", "JAZYK", "UMISTENI"));
+        arrayList.add(String.format("--------------------------------------------------------------------------------------------------------------------------------------------%n"));
 
         for (int k = 0; k < table.getRowCount(); k++) {
             noveOcislovani[k] = table.convertRowIndexToModel(k);
@@ -71,7 +143,7 @@ public class ObsluhaUdalosti {
                                 zaznam = zaznam + String.format("%-4s  ", table.getModel().getValueAt(noveOcislovani[i], j));
                             } else {
                                 if (j == 4) {
-                                    zaznam = zaznam + String.format("%-17s  ", table.getModel().getValueAt(noveOcislovani[i], j));
+                                    zaznam = zaznam + String.format("%-20s  ", table.getModel().getValueAt(noveOcislovani[i], j));
                                 } else {
                                     if (j == 5) {
                                         zaznam = zaznam + String.format("%-10s  ", table.getModel().getValueAt(noveOcislovani[i], j));
@@ -92,7 +164,7 @@ public class ObsluhaUdalosti {
             arrayList.add(zaznam);
             zaznam = "";
         }
-        arrayList.add(String.format("-----------------------------------------------------------------------------------------------------------------------------------------%n"));
+        arrayList.add(String.format("--------------------------------------------------------------------------------------------------------------------------------------------%n"));
 
         try {
             //inicializace textoveho souboru exportu pro cteni a zapis
@@ -106,6 +178,8 @@ public class ObsluhaUdalosti {
                     exportTiskRW.writeBytes(zaznam);
                 }
                 exportTiskRW.close();
+                String hlaskaExportOK = String.format("Záznam byl exportován do souboru %s.", exportTisk);
+                JOptionPane.showMessageDialog(null, hlaskaExportOK, "Exportování záznamů z Databáze knih", JOptionPane.INFORMATION_MESSAGE);
             }
         } catch (IOException ee) {
             JOptionPane.showMessageDialog(null, "Chyba pri exportovani do souboru!", "Exportování záznamů z Databáze knih", JOptionPane.ERROR_MESSAGE);
