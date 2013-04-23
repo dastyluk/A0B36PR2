@@ -29,25 +29,25 @@ public class ObsluhaUdalosti {
         okno2.setVisible(true);
     }
 
-    static void udalostMetOblastNabidkaButtonUprav(JTextField tf) {
-        field = tf;
-        int cisloKnihy = Integer.parseInt(field.getText());
-        field.setText("");
+    static void udalostMetOblastNabidkaButtonUprav(int cislo) {
+        int cisloKnihy = cislo;
         kniha = Main.vratZaznamPodleCisla(cisloKnihy);
         if (kniha.getParam1() == 0) {
             JOptionPane.showMessageDialog(null, "Záznam s tímto pořadovým číslem neexistuje!", "Mazání záznamu", JOptionPane.ERROR_MESSAGE);
         } else {
-            OknoOblastNabidkaUprav okno2 = new OknoOblastNabidkaUprav(kniha);
-            okno2.setVisible(true);
+            if (kniha.getParam2().equals("ZÁZNAM SMAZÁN!")) {
+                JOptionPane.showMessageDialog(null, "Pokus o úpravu smazaného záznamu!", "Úprava záznamu", JOptionPane.ERROR_MESSAGE);
+            } else {
+                OknoOblastNabidkaUprav okno2 = new OknoOblastNabidkaUprav(kniha);
+                okno2.setVisible(true);
+            }            
         }
 
     }
 
-    static void udalostMetOblastNabidkaButtonSmaz(JTextField tf) {
-        field = tf;
+    static void udalostMetOblastNabidkaButtonSmaz(int cislo) {
         try {
-            int cisloKnihy = Integer.parseInt(field.getText());
-            field.setText("");
+            int cisloKnihy = cislo;
             kniha = Main.vratZaznamPodleCisla(cisloKnihy);
             if (kniha.getParam1() == 0) {
                 JOptionPane.showMessageDialog(null, "Záznam s tímto pořadovým číslem neexistuje!", "Mazání záznamu", JOptionPane.ERROR_MESSAGE);
@@ -187,6 +187,9 @@ public class ObsluhaUdalosti {
     }
 
     static void udalostMetPolozkaMenuPolozka1() {
+        int realnyPocetZaznamu = Main.vratRealnyPocetZaznamu();
+        String hlaska = String.format("Počet záznamů v Databázi knih je %d. \n        (Bez smazaných záznamů.)", realnyPocetZaznamu);
+        JOptionPane.showMessageDialog(null, hlaska, "Počet záznamů v Databázi knih", JOptionPane.INFORMATION_MESSAGE);
     }
 
     static void udalostMetPolozkaMenuKonec() {

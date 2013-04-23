@@ -11,6 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -100,9 +101,13 @@ class OknoOblastNabidkaNovy extends JFrame {
                     Main.novyZaznamVSQLDatabaziAArrayListu(pomocnaKniha);
                     dispose();  //zavrit okno
                     Main.mainVypisTabulkuDoOblastiHlavni();
+                } catch (NumberFormatException er) {
+                    JOptionPane.showMessageDialog(null, "Zadaný údaj v kolonce Rok vydání knihy není číslo! \nZadejte rok vydání knihy (4 ciferné číslo).", "Nový záznam", JOptionPane.ERROR_MESSAGE);
+                    fieldRok.setText("");
                 } catch (Exception ex) {
                     Logger.getLogger(OknoOblastNabidkaUprav.class.getName()).log(Level.SEVERE, null, ex);
                 }
+
             }
         });
         stornoZmeny.setBounds(255, 520, 100, 30);
@@ -251,32 +256,35 @@ class OknoOblastNabidkaUprav extends JFrame {
         ulozZmeny.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (!(fieldNazev.getText().equals(""))) {
-                    nazev = fieldNazev.getText();
-                }
-                if (!(fieldAutor.getText().equals(""))) {
-                    autor = fieldAutor.getText();
-                }
-                if (!(fieldRok.getText().equals(""))) {
-                    rok = Integer.parseInt(fieldRok.getText());
-                }
-                if (!(fieldVydavatelstvi.getText().equals(""))) {
-                    vydavatelstvi = fieldVydavatelstvi.getText();
-                }
-                if (!(fieldZanr.getText().equals(""))) {
-                    zanr = fieldZanr.getText();
-                }
-                if (!(fieldJazyk.getText().equals(""))) {
-                    jazyk = fieldJazyk.getText();
-                }
-                if (!(fieldUmisteni.getText().equals(""))) {
-                    umisteni = fieldUmisteni.getText();
-                }
                 try {
+                    if (!(fieldNazev.getText().equals(""))) {
+                        nazev = fieldNazev.getText();
+                    }
+                    if (!(fieldAutor.getText().equals(""))) {
+                        autor = fieldAutor.getText();
+                    }
+                    if (!(fieldRok.getText().equals(""))) {
+                        rok = Integer.parseInt(fieldRok.getText());
+                    }
+                    if (!(fieldVydavatelstvi.getText().equals(""))) {
+                        vydavatelstvi = fieldVydavatelstvi.getText();
+                    }
+                    if (!(fieldZanr.getText().equals(""))) {
+                        zanr = fieldZanr.getText();
+                    }
+                    if (!(fieldJazyk.getText().equals(""))) {
+                        jazyk = fieldJazyk.getText();
+                    }
+                    if (!(fieldUmisteni.getText().equals(""))) {
+                        umisteni = fieldUmisteni.getText();
+                    }
                     pomocnaKniha = new Kniha(pomKniha.getParam1(), nazev, autor, rok, vydavatelstvi, zanr, jazyk, umisteni);
                     Main.upravZaznamVSQLDatabaziAArrayListu(pomocnaKniha.getParam1(), pomocnaKniha);
                     dispose();  //zavrit okno
                     Main.mainVypisTabulkuDoOblastiHlavni();
+                } catch (NumberFormatException er) {
+                    JOptionPane.showMessageDialog(null, "Zadaný údaj v kolonce Rok vydání knihy není číslo! \nZadejte rok vydání knihy (4 ciferné číslo).", "Úprava záznamu", JOptionPane.ERROR_MESSAGE);
+                    fieldRok.setText("");
                 } catch (Exception ex) {
                     Logger.getLogger(OknoOblastNabidkaUprav.class.getName()).log(Level.SEVERE, null, ex);
                 }

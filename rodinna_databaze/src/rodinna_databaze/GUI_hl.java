@@ -69,7 +69,7 @@ public class GUI_hl extends JFrame implements TableModelListener {
         kon.setLayout(srb);
 
         oblastMenu.add(submenuMenu);
-        polozkaMenu = new JMenuItem("Polozka Menu 1 - nefunkcni");
+        polozkaMenu = new JMenuItem("Počet záznamů v databazi");
         polozkaMenu.setMnemonic(KeyEvent.VK_P);
         polozkaMenu.addActionListener(new udalostPolozkaMenuPolozka1());
         submenuMenu.add(polozkaMenu);
@@ -301,7 +301,14 @@ public class GUI_hl extends JFrame implements TableModelListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            ObsluhaUdalosti.udalostMetOblastNabidkaButtonUprav(oblastNabidkaFieldUprav);
+            try {
+                int cislo = Integer.parseInt(oblastNabidkaFieldUprav.getText());
+                ObsluhaUdalosti.udalostMetOblastNabidkaButtonUprav(cislo);
+                oblastNabidkaFieldUprav.setText("");        
+            } catch (NumberFormatException er) {   
+                JOptionPane.showMessageDialog(null, "Zadaný údaj není číslo! \nZadejte pořadové číslo záznamu.", "Úprava záznamu", JOptionPane.ERROR_MESSAGE);
+                oblastNabidkaFieldUprav.setText(""); 
+            }            
         }
     }
 
@@ -309,7 +316,14 @@ public class GUI_hl extends JFrame implements TableModelListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            ObsluhaUdalosti.udalostMetOblastNabidkaButtonSmaz(oblastNabidkaFieldSmaz);
+            try {
+                int cislo = Integer.parseInt(oblastNabidkaFieldUprav.getText());
+                ObsluhaUdalosti.udalostMetOblastNabidkaButtonSmaz(cislo);
+                oblastNabidkaFieldSmaz.setText("");        
+            } catch (NumberFormatException er) {   
+                JOptionPane.showMessageDialog(null, "Zadaný údaj není číslo! \nZadejte pořadové číslo záznamu.", "Mazání záznamu", JOptionPane.ERROR_MESSAGE);
+                oblastNabidkaFieldSmaz.setText(""); 
+            }                       
         }
     }
 

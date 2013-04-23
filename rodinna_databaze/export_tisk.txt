@@ -24,13 +24,14 @@ Exportovany vypis z programu Databaze knih:
 |   18  Kniha 15                                      Autor15               1915  Vydavatelstvi 15      Zanr15      Jazyk15     Umisten15  |
 |   19  Kniha 15                                      Autor15               1915  Vydavatelstvi 15      Zanr15      Jazyk15     Umisten15  |
 |   20  ZÁZNAM SMAZÁN!                                -                     0     -                     -           -           -          |
-|   21  A1                                            B2                    1234  C4                    D5          E6          F7         |
+|   21  A1                                            B2                    1233  C4                    D5          E6          F7         |
 |   22  D                                             S                     2     S                     S           S           S          |
 |   23  Nazev                                         Autor                 1910  Vydav                 Zanr        Jazyk       3A0        |
 |   24  Nazev 1                                       Autor1                1923  Vydav1                Zanr1       Jazyk1      3A1        |
 |   25  Nazev 2                                       Autor2                1902  Vydav2                Zanr2       Jazyk2      3A2        |
 |   26  Neco 1                                        Nekdo                 1923  Nejake                Nejaky      Nejaky      Nejake     |
-|   27  Diferenciální pocet funkcí více promenných    Jan Hamhalter         2005  Ceská technika        Odborný     Ceatina     6B1        |
+|   27  Diferenciální pocet funkcí více promenných    Jan Hamhalter         2005  Ceská technika        Odborný     Ceatina     6B3        |
 |   28  Máj                                           Karel Hynek Mácha     1975  Mladá fronta          poezie      ceatina     1A2        |
 |   29  Matematická logika                            Marie Demlová         2002  Vydavatelstvi CVUT    Odborný     Cestina     6B2        |
+|   30  as                                            a                     2     a                     a           a           a          |
 --------------------------------------------------------------------------------------------------------------------------------------------

@@ -65,6 +65,17 @@ public class Main {
         }
         return pocet;
     }
+    
+    public static int vratRealnyPocetZaznamu() {
+        int pocet = 0;
+        for (Iterator<PrvekDatabaze> it = listKnih.iterator(); it.hasNext();) {
+            pomocnaKniha = it.next();
+            if (!pomocnaKniha.getParam2().equals("ZÁZNAM SMAZÁN!")) {
+                pocet++;
+            }
+        }
+        return pocet;
+    }
 
     public static void novyZaznamVSQLDatabaziAArrayListu(PrvekDatabaze pomKniha) throws Exception {
         //VLOZENI ZAZNAMU
@@ -102,7 +113,7 @@ public class Main {
             ps.setString(6, pomKniha.getParam6());
             ps.setString(7, pomKniha.getParam7());
             ps.setString(8, pomKniha.getParam8());
-//        int val = ps.executeUpdate();
+            int val = ps.executeUpdate();
         } catch (Exception e) {
         } finally {
             // uzavření dotazu i všech výsledků
