@@ -4,11 +4,13 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 /**
  * Semestrální práce na A0B36PR2 RODINNÁ DATABÁZE Začátek tvorby: 22.2.2013
@@ -22,31 +24,6 @@ public class Main {
     static List<PrvekDatabaze> listKnih;
     static int pocetKnih = 0;
 
-    public static void prevedSQLDatabaziNaArrayList() throws Exception {
-        Connection conn = null;
-        Statement st = null;
-        String url = "jdbc:derby://localhost:1527/Datab_hl";
-        Class.forName("org.apache.derby.jdbc.ClientDriver").newInstance();
-        try {
-            conn = DriverManager.getConnection(url, "Rodinna_databaze", "Rodinna_databaze");
-            st = conn.createStatement();
-
-            ResultSet rs = st.executeQuery("SELECT * FROM APP.KNIHY"); //nacteni zaznamu v databazi
-            while (rs.next()) { //prevedeni databaze na ArrayList pro dalsi praci s daty
-                Collections.addAll(listKnih, new Kniha(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8)));
-                pocetKnih++;
-            }
-        } catch (Exception e) {
-        } finally {
-            // uzavření dotazu i všech výsledků
-            st.close();
-            // uzavření spojení
-            conn.close();
-        }
-
-        okno1.vypisTabulkuDoOblastiHlavni(listKnih);
-    }
-
     public static PrvekDatabaze vratZaznamPodleCisla(int poradoveCislo) {
         for (Iterator<PrvekDatabaze> it = listKnih.iterator(); it.hasNext();) {
             pomocnaKniha = it.next();
@@ -57,6 +34,16 @@ public class Main {
         return (new Kniha(0, "", "", 0, "", "", "", ""));
     }
 
+    public static int vratRokVydani(int radek) {
+        for (Iterator<PrvekDatabaze> it = listKnih.iterator(); it.hasNext();) {
+            pomocnaKniha = it.next();
+            if (pomocnaKniha.getParam1() == radek) {
+                return pomocnaKniha.getParam4();
+            }
+        }
+        return 0;
+    }
+
     public static int vratPocetZaznamu() {
         int pocet = 0;
         for (Iterator<PrvekDatabaze> it = listKnih.iterator(); it.hasNext();) {
@@ -65,7 +52,7 @@ public class Main {
         }
         return pocet;
     }
-    
+
     public static int vratRealnyPocetZaznamu() {
         int pocet = 0;
         for (Iterator<PrvekDatabaze> it = listKnih.iterator(); it.hasNext();) {
@@ -75,6 +62,55 @@ public class Main {
             }
         }
         return pocet;
+    }
+    
+    public static void nastavOblastHlaseni(String str) {
+        okno1.setOblastHlaseni(str);
+    }
+
+    public static void prevedSQLDatabaziNaArrayList() throws Exception {
+        Connection conn = null;
+        Statement st = null;
+        ResultSet rs = null;
+        String url = "jdbc:derby://localhost:1527/Datab_hl";
+        okno1.setOblastHlaseni("Načítání databáze...");
+        try {
+            Class.forName("org.apache.derby.jdbc.ClientDriver").newInstance();
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException eClass) {
+            JOptionPane.showMessageDialog(null, "Chyba při načítání databáze! \nDatabáze záznamů nebyla nalezena. \nUkončete program a zkusto ho sputit znovu.",
+                    "Načítání databáze", JOptionPane.ERROR_MESSAGE);
+        }        
+        try {
+            conn = DriverManager.getConnection(url, "Rodinna_databaze", "Rodinna_databaze");
+            st = conn.createStatement();
+
+            rs = st.executeQuery("SELECT * FROM APP.KNIHY"); //nacteni zaznamu v databazi
+            while (rs.next()) { //prevedeni databaze na ArrayList pro dalsi praci s daty
+                Collections.addAll(listKnih, new Kniha(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8)));
+                pocetKnih++;
+            }            
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Chyba při načítání databáze! \nDatabáze záznamů nebyla nalezena. \nUkončete program a zkusto ho sputit znovu.",
+                    "Načítání databáze", JOptionPane.ERROR_MESSAGE);
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();  //uzavření fronty z databáze
+                }
+                if (st != null) {
+                    st.close();  // uzavření dotazu i všech výsledků
+                }
+                if (conn != null) {
+                    conn.close();  // uzavření spojení
+                }
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "Chyba při uzavírání databáze! \nUkončete program a zkusto ho sputit znovu.",
+                    "Načítání databáze", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+
+        okno1.vypisTabulkuDoOblastiHlavni(listKnih);
+        okno1.setOblastHlaseni("Připraven");
     }
 
     public static void novyZaznamVSQLDatabaziAArrayListu(PrvekDatabaze pomKniha) throws Exception {
@@ -97,7 +133,13 @@ public class Main {
         Connection conn = null;
         Statement st = null;
         String url = "jdbc:derby://localhost:1527/Datab_hl";
-        Class.forName("org.apache.derby.jdbc.ClientDriver").newInstance();
+        okno1.setOblastHlaseni("Vytváření nového záznamu v databázi");
+        try {
+            Class.forName("org.apache.derby.jdbc.ClientDriver").newInstance();
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException eClass) {
+            JOptionPane.showMessageDialog(null, "Chyba při načítání databáze! \nDatabáze záznamů nebyla nalezena. \nUkončete program a zkusto ho sputit znovu.",
+                    "Načítání databáze", JOptionPane.ERROR_MESSAGE);
+        } 
         try {
             conn = DriverManager.getConnection(url, "Rodinna_databaze", "Rodinna_databaze");
             st = conn.createStatement();
@@ -114,15 +156,25 @@ public class Main {
             ps.setString(7, pomKniha.getParam7());
             ps.setString(8, pomKniha.getParam8());
             int val = ps.executeUpdate();
-        } catch (Exception e) {
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Chyba při načítání databáze! \nDatabáze záznamů nebyla nalezena. \nUkončete program a zkusto ho sputit znovu.",
+                    "Načítání databáze", JOptionPane.ERROR_MESSAGE);
         } finally {
-            // uzavření dotazu i všech výsledků
-            st.close();
-            // uzavření spojení
-            conn.close();
+            try {
+                if (st != null) {
+                    st.close();  // uzavření dotazu i všech výsledků
+                }
+                if (conn != null) {
+                    conn.close();  // uzavření spojení
+                }
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "Chyba při uzavírání databáze! \nUkončete program a zkusto ho sputit znovu.",
+                    "Načítání databáze", JOptionPane.ERROR_MESSAGE);
+            }
         }
 
         okno1.vypisTabulkuDoOblastiHlavni(listKnih);
+        okno1.setOblastHlaseni("Připraven");
     }
 
     public static void upravZaznamVSQLDatabaziAArrayListu(int poradoveCislo, PrvekDatabaze pomKniha) throws Exception {
@@ -131,7 +183,13 @@ public class Main {
         Connection conn = null;
         Statement st = null;
         String url = "jdbc:derby://localhost:1527/Datab_hl";
-        Class.forName("org.apache.derby.jdbc.ClientDriver").newInstance();
+        okno1.setOblastHlaseni("Úprava záznamu v databázi");
+        try {
+            Class.forName("org.apache.derby.jdbc.ClientDriver").newInstance();
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException eClass) {
+            JOptionPane.showMessageDialog(null, "Chyba při načítání databáze! \nDatabáze záznamů nebyla nalezena. \nUkončete program a zkusto ho sputit znovu.",
+                    "Načítání databáze", JOptionPane.ERROR_MESSAGE);
+        } 
         try {
             conn = DriverManager.getConnection(url, "Rodinna_databaze", "Rodinna_databaze");
             st = conn.createStatement();
@@ -150,12 +208,21 @@ public class Main {
             st.executeUpdate(SQLDotazEdit6);
             st.executeUpdate(SQLDotazEdit7);
             st.executeUpdate(SQLDotazEdit8);
-        } catch (Exception e) {
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Chyba při načítání databáze! \nDatabáze záznamů nebyla nalezena. \nUkončete program a zkusto ho sputit znovu.",
+                    "Načítání databáze", JOptionPane.ERROR_MESSAGE);
         } finally {
-            // uzavření dotazu i všech výsledků
-            st.close();
-            // uzavření spojení
-            conn.close();
+            try {
+                if (st != null) {
+                    st.close();  // uzavření dotazu i všech výsledků
+                }
+                if (conn != null) {
+                    conn.close();  // uzavření spojení
+                }
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "Chyba při uzavírání databáze! \nUkončete program a zkusto ho sputit znovu.",
+                    "Načítání databáze", JOptionPane.ERROR_MESSAGE);
+            }
         }
 
         for (Iterator<PrvekDatabaze> it = listKnih.iterator(); it.hasNext();) {
@@ -170,6 +237,7 @@ public class Main {
                 pomocnaKniha.setParam8(pomKniha.getParam8());
             }
         }
+        okno1.setOblastHlaseni("Připraven");
     }
 
     public static void razeniPodleNazvu() {

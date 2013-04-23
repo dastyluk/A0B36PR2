@@ -101,6 +101,7 @@ class OknoOblastNabidkaNovy extends JFrame {
                     Main.novyZaznamVSQLDatabaziAArrayListu(pomocnaKniha);
                     dispose();  //zavrit okno
                     Main.mainVypisTabulkuDoOblastiHlavni();
+                    Main.nastavOblastHlaseni("Připraven");
                 } catch (NumberFormatException er) {
                     JOptionPane.showMessageDialog(null, "Zadaný údaj v kolonce Rok vydání knihy není číslo! \nZadejte rok vydání knihy (4 ciferné číslo).", "Nový záznam", JOptionPane.ERROR_MESSAGE);
                     fieldRok.setText("");
@@ -115,6 +116,7 @@ class OknoOblastNabidkaNovy extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();  //zavrit okno
+                Main.nastavOblastHlaseni("Připraven");
             }
         });
 
@@ -282,6 +284,7 @@ class OknoOblastNabidkaUprav extends JFrame {
                     Main.upravZaznamVSQLDatabaziAArrayListu(pomocnaKniha.getParam1(), pomocnaKniha);
                     dispose();  //zavrit okno
                     Main.mainVypisTabulkuDoOblastiHlavni();
+                    Main.nastavOblastHlaseni("Připraven");
                 } catch (NumberFormatException er) {
                     JOptionPane.showMessageDialog(null, "Zadaný údaj v kolonce Rok vydání knihy není číslo! \nZadejte rok vydání knihy (4 ciferné číslo).", "Úprava záznamu", JOptionPane.ERROR_MESSAGE);
                     fieldRok.setText("");
@@ -295,6 +298,7 @@ class OknoOblastNabidkaUprav extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();  //zavrit okno
+                Main.nastavOblastHlaseni("Připraven");
             }
         });
 
@@ -342,5 +346,6 @@ class OknoPolozkaMenuOProgramu extends JFrame {
         JPanel p = new JPanel();
         p.add(ta);
         getContentPane().add(p);
+        Main.nastavOblastHlaseni("Připraven");
     }
 }

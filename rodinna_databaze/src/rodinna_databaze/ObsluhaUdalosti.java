@@ -34,9 +34,11 @@ public class ObsluhaUdalosti {
         kniha = Main.vratZaznamPodleCisla(cisloKnihy);
         if (kniha.getParam1() == 0) {
             JOptionPane.showMessageDialog(null, "Záznam s tímto pořadovým číslem neexistuje!", "Mazání záznamu", JOptionPane.ERROR_MESSAGE);
+            Main.nastavOblastHlaseni("Připraven");
         } else {
             if (kniha.getParam2().equals("ZÁZNAM SMAZÁN!")) {
                 JOptionPane.showMessageDialog(null, "Pokus o úpravu smazaného záznamu!", "Úprava záznamu", JOptionPane.ERROR_MESSAGE);
+                Main.nastavOblastHlaseni("Připraven");
             } else {
                 OknoOblastNabidkaUprav okno2 = new OknoOblastNabidkaUprav(kniha);
                 okno2.setVisible(true);
@@ -85,7 +87,7 @@ public class ObsluhaUdalosti {
         try {
             table.print(JTable.PrintMode.FIT_WIDTH, header, null);
         } catch (java.awt.print.PrinterException ee) {
-            System.err.format("Chyba tisku %s%n", ee.getMessage());
+            JOptionPane.showMessageDialog(null, "Chyba tisku!", "Tisk", JOptionPane.ERROR_MESSAGE);
         }
     }
 

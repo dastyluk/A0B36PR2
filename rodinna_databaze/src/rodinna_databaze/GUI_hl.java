@@ -264,6 +264,9 @@ public class GUI_hl extends JFrame implements TableModelListener {
                     try {
                         Main.upravZaznamVSQLDatabaziAArrayListu(radek + 1, pomocnaKniha);
                         //            Main.mainVypisTabulkuDoOblastiHlavni();
+                    } catch (NumberFormatException er) {
+                        JOptionPane.showMessageDialog(null, "Zadaný údaj v kolonce Rok vydání knihy není číslo! \nZadejte rok vydání knihy (4 ciferné číslo).", "Úprava záznamu", JOptionPane.ERROR_MESSAGE);
+                        oblastHlavniTab.getModel().setValueAt("" + Main.vratZaznamPodleCisla(radek), radek, 3);
                     } catch (Exception ex) {
                         Logger.getLogger(GUI_hl.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -288,11 +291,16 @@ public class GUI_hl extends JFrame implements TableModelListener {
         }
         provadetZmenyVTab = true;
     }
+    
+    void setOblastHlaseni(String str) {
+        oblastHlaseni.setText(str);
+    }
 
     class udalostOblastNabidkaButtonNovy implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            oblastHlaseni.setText("Vytváření nového záznamu");
             ObsluhaUdalosti.udalostMetOblastNabidkaButtonNovy();
         }
     }
@@ -301,14 +309,16 @@ public class GUI_hl extends JFrame implements TableModelListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            oblastHlaseni.setText("Úprava záznamu");
             try {
                 int cislo = Integer.parseInt(oblastNabidkaFieldUprav.getText());
                 ObsluhaUdalosti.udalostMetOblastNabidkaButtonUprav(cislo);
-                oblastNabidkaFieldUprav.setText("");        
-            } catch (NumberFormatException er) {   
+                oblastNabidkaFieldUprav.setText("");
+            } catch (NumberFormatException er) {
                 JOptionPane.showMessageDialog(null, "Zadaný údaj není číslo! \nZadejte pořadové číslo záznamu.", "Úprava záznamu", JOptionPane.ERROR_MESSAGE);
-                oblastNabidkaFieldUprav.setText(""); 
-            }            
+                oblastNabidkaFieldUprav.setText("");
+                oblastHlaseni.setText("Připraven");
+            }
         }
     }
 
@@ -316,14 +326,17 @@ public class GUI_hl extends JFrame implements TableModelListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            oblastHlaseni.setText("Mazání záznamu");
             try {
-                int cislo = Integer.parseInt(oblastNabidkaFieldUprav.getText());
+                int cislo = Integer.parseInt(oblastNabidkaFieldSmaz.getText());
                 ObsluhaUdalosti.udalostMetOblastNabidkaButtonSmaz(cislo);
-                oblastNabidkaFieldSmaz.setText("");        
-            } catch (NumberFormatException er) {   
+                oblastNabidkaFieldSmaz.setText("");
+            } catch (NumberFormatException er) {
                 JOptionPane.showMessageDialog(null, "Zadaný údaj není číslo! \nZadejte pořadové číslo záznamu.", "Mazání záznamu", JOptionPane.ERROR_MESSAGE);
-                oblastNabidkaFieldSmaz.setText(""); 
-            }                       
+                oblastNabidkaFieldSmaz.setText("");
+                oblastHlaseni.setText("Připraven");
+            }
+            oblastHlaseni.setText("Připraven");
         }
     }
 
@@ -331,7 +344,9 @@ public class GUI_hl extends JFrame implements TableModelListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            oblastHlaseni.setText("Probíhá tisk");
             ObsluhaUdalosti.udalostMetOblastNabidkaButtonTisk(oblastHlavniTab);
+            oblastHlaseni.setText("Připraven");
         }
     }
 
@@ -339,7 +354,9 @@ public class GUI_hl extends JFrame implements TableModelListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            oblastHlaseni.setText("Export záznamů");
             ObsluhaUdalosti.udalostMetOblastNabidkaButtonExport(oblastHlavniTab);
+            oblastHlaseni.setText("Připraven");
         }
     }
 
@@ -347,7 +364,9 @@ public class GUI_hl extends JFrame implements TableModelListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            oblastHlaseni.setText("Počet záznamů");
             ObsluhaUdalosti.udalostMetPolozkaMenuPolozka1();
+            oblastHlaseni.setText("Připraven");
         }
     }
 
@@ -355,7 +374,9 @@ public class GUI_hl extends JFrame implements TableModelListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            oblastHlaseni.setText("Ukončování programu");
             ObsluhaUdalosti.udalostMetPolozkaMenuKonec();
+            oblastHlaseni.setText("Připraven");
         }
     }
 
@@ -363,7 +384,9 @@ public class GUI_hl extends JFrame implements TableModelListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            oblastHlaseni.setText("Nápověda k programu");
             ObsluhaUdalosti.udalostMetPolozkaMenuNapoveda();
+            oblastHlaseni.setText("Připraven");
         }
     }
 
@@ -371,6 +394,7 @@ public class GUI_hl extends JFrame implements TableModelListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
+            oblastHlaseni.setText("O programu");
             OknoPolozkaMenuOProgramu okno2 = new OknoPolozkaMenuOProgramu();
             okno2.setVisible(true);
         }
