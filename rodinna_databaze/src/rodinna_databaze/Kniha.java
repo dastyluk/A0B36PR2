@@ -34,7 +34,6 @@ class Kniha extends PrvekDatabaze implements Serializable {
         this.param6 = zanrKnihy;
         this.param7 = jazykKnihy;
         this.param8 = umisteniKnihy;
-//        super(poradoveCislo, nazevKnihy, autorKnihy, rokKnihy, vydavatelstviKnihy, zanrKnihy, jazykKnihy, umisteniKnihy);
     }
     
     /**
@@ -197,11 +196,6 @@ class Kniha extends PrvekDatabaze implements Serializable {
      */
     @Override
     public String toString() {
-        /*if (nazevKnihy.equals("--zaznam smazan--")) {
-            return poradoveCislo + "   " + nazevKnihy;
-        } else {
-            return poradoveCislo + " - " + nazevKnihy + " - " + autorKnihy + " - " + rokKnihy + " - " + vydavatelstviKnihy + " - " + zanrKnihy + " - " + jazykKnihy + " - " + umisteniKnihy;
-        }*/
         return param1 + " - " + param2 + " - " + param3 + " - " + param4 + " - " + param5 + " - " + param6 + " - " + param7 + " - " + param8;
     }    
 }

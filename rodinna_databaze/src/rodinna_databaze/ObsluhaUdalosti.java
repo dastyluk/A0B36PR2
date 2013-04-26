@@ -85,15 +85,14 @@ public class ObsluhaUdalosti {
                         "Mazání záznamu",
                         JOptionPane.YES_NO_OPTION,
                         JOptionPane.QUESTION_MESSAGE,
-                        null, //nepouzivat zakladni ikony
-                        options, //napisy ikon
-                        options[0])) {  //defaultni ikona             
-                    //showConfirmDialog     JOptionPane.ERROR_MESSAGE)){
+                        null, 
+                        options, 
+                        options[0])) {
                     case JOptionPane.OK_OPTION:  //ukonci program
                         kniha = new Kniha(cisloKnihy, "ZÁZNAM SMAZÁN!", "-", 0, "-", "-", "-", "-");
                         Databaze.upravZaznamVSQLDatabaziAArrayListu(cisloKnihy, kniha);
                         Main.mainVypisTabulkuDoOblastiHlavni();
-                    case JOptionPane.CANCEL_OPTION:  //rozmyslel si to, nedelej nic.
+                    case JOptionPane.CANCEL_OPTION:
                 }
             }
         } catch (Exception ex) {
@@ -135,9 +134,6 @@ public class ObsluhaUdalosti {
                 JOptionPane.showMessageDialog(null, "Nezadal jste žádný název.\nExport bude proveden do souboru se \nstandatním názvem \"export_tisk.txt\".", "Exportování záznamů z Databáze knih", JOptionPane.PLAIN_MESSAGE);
                 nazevSouboru = "export_tisk.txt";
             } else {
-                //vyhledá existenci hledaneho retezce v retezci
-                //hodnoty: -1 neobsahuje, >=0 obsahuje    \/:*?"<>|
-                //if ((poradoveCislo.indexOf(hledanyVyraz)) != -1) {
                 if ((dialog.indexOf("\\") >= 0) || (dialog.indexOf("/") >= 0) || (dialog.indexOf(":") >= 0)
                         || (dialog.indexOf("*") >= 0) || (dialog.indexOf("?") >= 0) || (dialog.indexOf("\"") >= 0)
                         || (dialog.indexOf("<") >= 0) || (dialog.indexOf(">") >= 0) || (dialog.indexOf("|") >= 0)) {
@@ -199,8 +195,6 @@ public class ObsluhaUdalosti {
         arrayList.add(String.format("--------------------------------------------------------------------------------------------------------------------------------------------%n"));
 
         try {
-            //inicializace textoveho souboru exportu pro cteni a zapis
-            //pro postupne ukladani upravene kopie souboru dat_knih.bin     
             File exportTisk = new File(nazevSouboru);
             try (RandomAccessFile exportTiskRW = new RandomAccessFile(exportTisk, "rw")) {
                 exportTiskRW.setLength(0);  //smazani obsahu souboru exportTisk.txt
@@ -240,14 +234,13 @@ public class ObsluhaUdalosti {
                 "Ukončovací dialog",
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE,
-                null, //nepouzivat zakladni ikony
-                options, //napisy ikon
-                options[0])) {  //defaultni ikona             
-            //showConfirmDialog     JOptionPane.ERROR_MESSAGE)){
+                null, 
+                options,
+                options[0])) {
             case JOptionPane.OK_OPTION:  //ukonci program
                 System.exit(0);
                 break;
-            case JOptionPane.CANCEL_OPTION:  //rozmyslel si to, nedelej nic.
+            case JOptionPane.CANCEL_OPTION:
             }
     }
     

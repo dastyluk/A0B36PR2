@@ -39,4 +39,8 @@ Exportovany vypis z programu Databaze knih:
 |   33  Tiena v raji                                  Erich Maria Remarque  1985  Slovenský spisovatel  Krásná      Slovenský   3A1        |
 |   34  Feedback control of dynamic systems           Gene F. Franklin      2009  Pearson               Odborný     Anglický    2A2        |
 |   35  Síla  pozitivního myslení                     aNorman Vincent       1994  Knizni klub           Odborný     Ceský       1B2        |
+|   36  Digital fotography                            Simon Joinson         2010  Rebo                  Odborný     Anglický    7A4        |
+|   37  Od krystalky k modelom s tranzistory          Pavel Srait           1973  SNTL                  Odborný     Cestina     6A1        |
+|   38  Výpocetní a rídící technika                   Martin Stanák         1988  SNTL                  Odborný     Cestina     6B2        |
+|   39  Exercises in english grammar                  Martin Tharp          2009  Vydavatelstvi CVUT    Odborný     Anglický    4A2        |
 --------------------------------------------------------------------------------------------------------------------------------------------

@@ -16,16 +16,6 @@ import java.util.List;
  * Hlavní třída programu - spouštění a vnitřní aplikace databáze.
  */
 public class Main {
-    /*
-     * tři metody pro změnu dat v databazi implementovat ve zvlastni tride
-     * + oddelit pripojeni k databazi do jedne metody a volat v kazde z tech 3
-     * zvlast a to same pro uzavreni spojeni s databazi
-     * 
-     * promazat zbytecne komentare a okomentovat v hlavickach vsechny metody
-     * podle zasad komentovani a smazat Potravina.java 
-     * (???PrvekDatabaze.java???) pokud bude jednoduše možné přepsat celý program
-     */
-
     static GUI_hl okno1;
     static PrvekDatabaze pomocnaKniha;
     static List<PrvekDatabaze> listKnih;
@@ -121,12 +111,5 @@ public class Main {
         listKnih = new ArrayList<>();
 
         Databaze.prevedSQLDatabaziNaArrayList();
-
-
-        // VYVORENI TABULKY V DATABAZI
-        //st.executeUpdate("CREATE TABLE APP.KNIHY (PORADOVECISLO INTEGER, NAZEVKNIHY VARCHAR(100), AUTORKNIHY VARCHAR(50), ROKKNIHY INTEGER, VYDAVATELSTVIKNIHY VARCHAR(50), ZANRKNIHY VARCHAR(20), JAZYKKNIHY VARCHAR(20), UMISTENIKNIHY VARCHAR(10))");
-
-        //SMAZANI ZAZNAMU
-        //st.executeUpdate("DELETE FROM APP.KNIHY WHERE PORADOVECISLO=26");
     }
 }

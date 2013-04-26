@@ -67,7 +67,7 @@ class OknoOblastNabidkaNovy extends JFrame {
         setBounds(350, 100, 500, 600);
         oblastZadavaniNovy = new JLayeredPane();
         oblastZadavaniNovy.setPreferredSize(new Dimension(400, 500));
-        oblastZadavaniNovy.setBorder(BorderFactory.createTitledBorder(""));  //Nabídka
+        oblastZadavaniNovy.setBorder(BorderFactory.createTitledBorder(""));
 
         popisOvladani = new JTextArea("• Pro úpravu záznamu zadejte do polí nové údaje. \n"
                 + "• Pro nezměněné údaje ponechte pole prázdná. \n"
@@ -215,7 +215,7 @@ class OknoOblastNabidkaUprav extends JFrame {
         setBounds(350, 100, 500, 600);
         oblastZadavaniUprav = new JLayeredPane();
         oblastZadavaniUprav.setPreferredSize(new Dimension(400, 500));
-        oblastZadavaniUprav.setBorder(BorderFactory.createTitledBorder(""));  //Nabídka
+        oblastZadavaniUprav.setBorder(BorderFactory.createTitledBorder(""));
 
         popisOvladani = new JTextArea("• Pro úpravu záznamu zadejte do polí nové údaje. \n"
                 + "• Pro nezměněné údaje ponechte pole prázdná. \n"

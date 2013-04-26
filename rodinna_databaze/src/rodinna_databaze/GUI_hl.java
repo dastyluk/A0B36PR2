@@ -33,9 +33,6 @@ import javax.swing.table.TableRowSorter;
 public class GUI_hl extends JFrame implements TableModelListener {
 
     private PrvekDatabaze pomocnaKniha;
-    //JTextArea to = new JTextArea("Počáteční text", 28, 50);
-    //JButton tl1 = new JButton("Test1");
-    //JLabel napis = new JLabel("Nadpis nad textovým polem");
     private JMenuBar oblastMenu = new JMenuBar();
     private JMenu submenuMenu = new JMenu("Menu");
     private JMenu submenuNapoveda = new JMenu("Nápověda");
@@ -67,7 +64,7 @@ public class GUI_hl extends JFrame implements TableModelListener {
      */
     public GUI_hl() {
         super();
-        this.setBounds(100, 0, 1100, 740);  //this.setBounds(100, 50, 1100, 750);
+        this.setBounds(100, 0, 1100, 740);
         this.setTitle("Rodinná databáze");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
@@ -94,7 +91,6 @@ public class GUI_hl extends JFrame implements TableModelListener {
         polozkaMenu.setMnemonic(KeyEvent.VK_O);
         polozkaMenu.addActionListener(new udalostPolozkaMenuOProgramu());
         submenuNapoveda.add(polozkaMenu);
-
 
         JLayeredPane oblastHlavni = new JLayeredPane();
         oblastHlavni.setPreferredSize(new Dimension(800, 50));
@@ -174,27 +170,11 @@ public class GUI_hl extends JFrame implements TableModelListener {
                 }
             }
         }
-//        TVORBA SLOUPCU A RADEK
-//        // Create a couple of columns 
-//        modelTab.addColumn("Col1"); 
-//        modelTab.addColumn("Col2"); 
-//        // Append a row 
-//        modelTab.addRow(new Object[]{"v1", "v2"});
-//        modelTab.addRow(new Object[]{"v1", "v2"});
-//        ===============================================================
-//        ZMENA HODNOTY V DANE BUNCE - PROCHAZENI PO SLOUPCICH V RADKU 3
-//        int radek = 2; //3. radek - cislovano od 0
-//        int sloupec = 0;
-//        for (int j = 0; j < 8; j++) {
-//            sloupec = j;
-//            oblastHlavniTab.getModel().setValueAt("New Value", radek, sloupec);            
-//        }        
         oblastHlavni.add(oblastHlavniScroll);
-
 
         JLayeredPane oblastNabidka = new JLayeredPane();
         oblastNabidka.setPreferredSize(new Dimension(280, 50));
-        oblastNabidka.setBorder(BorderFactory.createTitledBorder("Operace"));  //Nabídka   
+        oblastNabidka.setBorder(BorderFactory.createTitledBorder("Operace"));  
         oblastNabidkaButtonNovy.setBounds(75, 22, 130, 25);
         oblastNabidkaButtonNovy.addActionListener(new udalostOblastNabidkaButtonNovy());
         oblastNabidkaLabelUprav.setBounds(15, 80, 180, 20);
@@ -215,6 +195,9 @@ public class GUI_hl extends JFrame implements TableModelListener {
         oblastNabidkaLabelHledej.setBounds(15, 596, 200, 20);
         oblastNabidkaFieldHledej.setBounds(15, 621, 250, 30);
         oblastNabidkaFieldHledej.getDocument().addDocumentListener(
+                /**
+                 * Nutno implementovat všechny 3 metody pro DocumentListener
+                 */
                 new DocumentListener() {
                     /**
                      * Metoda pro správné vyhledávání v záznamech
@@ -285,7 +268,6 @@ public class GUI_hl extends JFrame implements TableModelListener {
                             (String) oblastHlavniTab.getModel().getValueAt(radek, 7));
                     try {
                         Databaze.upravZaznamVSQLDatabaziAArrayListu(radek + 1, pomocnaKniha);
-                        //            Main.mainVypisTabulkuDoOblastiHlavni();
                     } catch (NumberFormatException er) {
                         JOptionPane.showMessageDialog(null, "Zadaný údaj v kolonce Rok vydání knihy není číslo! \nZadejte rok vydání knihy (4 ciferné číslo).", "Úprava záznamu", JOptionPane.ERROR_MESSAGE);
                         oblastHlavniTab.getModel().setValueAt("" + Main.vratZaznamPodleCisla(radek), radek, 3);

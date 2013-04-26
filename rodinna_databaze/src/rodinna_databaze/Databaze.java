@@ -102,22 +102,6 @@ public class Databaze {
      * @param pomKniha PrvekDatabaze - nově vytvořený záznam
      */
     public static void novyZaznamVSQLDatabaziAArrayListu(PrvekDatabaze pomKniha) {
-        //VLOZENI ZAZNAMU
-        //st.executeUpdate("INSERT INTO APP.KNIHY (PORADOVECISLO, NAZEVKNIHY, AUTORKNIHY, ROKKNIHY, VYDAVATELSTVIKNIHY, ZANRKNIHY, JAZYKKNIHY, UMISTENIKNIHY) VALUES (2, 'Kniha 2', 'Autor 2', 1902, 'Vydavatelstvi 2', 'Zanr 2', 'Jazyk 2', 'Umisteni 2')");
-        /*pomocnaKniha = databaze.nactiNovouKnihu(pocetKnih);
-         pocetKnih++;
-         Collections.addAll(listKnih, pomocnaKniha);
-         String sql = "INSERT INTO APP.KNIHY (PORADOVECISLO, NAZEVKNIHY, AUTORKNIHY, ROKKNIHY, VYDAVATELSTVIKNIHY, ZANRKNIHY, JAZYKKNIHY, UMISTENIKNIHY) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
-         PreparedStatement ps = conn.prepareStatement(sql);
-         ps.setInt(1, pomocnaKniha.getParam1());
-         ps.setString(2, pomocnaKniha.getParam2());
-         ps.setString(3, pomocnaKniha.getParam3());
-         ps.setInt(4, pomocnaKniha.getParam4());
-         ps.setString(5, pomocnaKniha.getParam5());
-         ps.setString(6, pomocnaKniha.getParam6());
-         ps.setString(7, pomocnaKniha.getParam7());
-         ps.setString(8, pomocnaKniha.getParam8());
-         int val = ps.executeUpdate();*/
         Main.mainVolaniSetOblastHlaseni("Vytváření nového záznamu v databázi");
         Databaze.navazaniSpojeniSDatabazi();
         try {
@@ -152,8 +136,6 @@ public class Databaze {
      * @param pomKnihaPrvekDatabaze - upravený záznam
      */
     public static void upravZaznamVSQLDatabaziAArrayListu(int poradoveCislo, PrvekDatabaze pomKniha) {
-        //EDITACE ZAZNAMU
-        //st.executeUpdate("UPDATE APP.KNIHY SET NAZEVKNIHY='Matematika pro SOŠ' WHERE PORADOVECISLO=15");
         Main.mainVolaniSetOblastHlaseni("Úprava záznamu v databázi");
         Databaze.navazaniSpojeniSDatabazi();
         try {
