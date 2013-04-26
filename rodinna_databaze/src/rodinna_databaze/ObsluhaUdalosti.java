@@ -1,3 +1,10 @@
+/**
+ * ObsluhaUdalosti.java
+ * Semestrální práce na A0B36PR2  =  RODINNÁ DATABÁZE
+ * @author Lukáš Dastych
+ * Začátek tvorby: 22.2.2013
+ * Databáze knih určená pro domácí použití.
+ */
 package rodinna_databaze;
 
 import java.io.File;
@@ -14,31 +21,39 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 
 /**
- *
- * @author Lukáš Dastych
+ * Třída metod použitých jako reakce na událost od tlačítka
  */
 public class ObsluhaUdalosti {
 
     static PrvekDatabaze kniha;
     static JTable table;
     static JTextField field;
-
+    
+    /**
+     * Reakce na událost od tlačítka - Nový záznam
+     * Vytvoří a otevře nové okno podle OknoOblastNabidkaNovy
+     */
     static void udalostMetOblastNabidkaButtonNovy() {
         int pocetZaznamu = Main.vratPocetZaznamu();
         OknoOblastNabidkaNovy okno2 = new OknoOblastNabidkaNovy(pocetZaznamu);
         okno2.setVisible(true);
     }
-
+    
+    /**
+     * Reakce na událost od tlačítka - Upravit záznam
+     * Vytvoří a otevře nové okno podle OknoOblastNabidkaUprav
+     * @param cislo int - Pořadové číslo upravovaného záznamu - číslování od 1
+     */
     static void udalostMetOblastNabidkaButtonUprav(int cislo) {
         int cisloKnihy = cislo;
         kniha = Main.vratZaznamPodleCisla(cisloKnihy);
         if (kniha.getParam1() == 0) {
             JOptionPane.showMessageDialog(null, "Záznam s tímto pořadovým číslem neexistuje!", "Mazání záznamu", JOptionPane.ERROR_MESSAGE);
-            Main.nastavOblastHlaseni("Připraven");
+            Main.mainVolaniSetOblastHlaseni("Připraven");
         } else {
             if (kniha.getParam2().equals("ZÁZNAM SMAZÁN!")) {
                 JOptionPane.showMessageDialog(null, "Pokus o úpravu smazaného záznamu!", "Úprava záznamu", JOptionPane.ERROR_MESSAGE);
-                Main.nastavOblastHlaseni("Připraven");
+                Main.mainVolaniSetOblastHlaseni("Připraven");
             } else {
                 OknoOblastNabidkaUprav okno2 = new OknoOblastNabidkaUprav(kniha);
                 okno2.setVisible(true);
@@ -46,7 +61,12 @@ public class ObsluhaUdalosti {
         }
 
     }
-
+    
+    /**
+     * Reakce na událost od tlačítka - Smazat záznam
+     * Zobrazí hlášku a poté záznam přemaže řetězcem SMAZÁNO
+     * @param cislo int - Pořadové číslo upravovaného záznamu - číslování od 1
+     */
     static void udalostMetOblastNabidkaButtonSmaz(int cislo) {
         try {
             int cisloKnihy = cislo;
@@ -71,7 +91,7 @@ public class ObsluhaUdalosti {
                     //showConfirmDialog     JOptionPane.ERROR_MESSAGE)){
                     case JOptionPane.OK_OPTION:  //ukonci program
                         kniha = new Kniha(cisloKnihy, "ZÁZNAM SMAZÁN!", "-", 0, "-", "-", "-", "-");
-                        Main.upravZaznamVSQLDatabaziAArrayListu(cisloKnihy, kniha);
+                        Databaze.upravZaznamVSQLDatabaziAArrayListu(cisloKnihy, kniha);
                         Main.mainVypisTabulkuDoOblastiHlavni();
                     case JOptionPane.CANCEL_OPTION:  //rozmyslel si to, nedelej nic.
                 }
@@ -80,7 +100,12 @@ public class ObsluhaUdalosti {
             Logger.getLogger(GUI_hl.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    
+    /**
+     * Reakce na událost od tlačítka - Tisk
+     * Odešle tabulku s právě zobrazenými záznamy na tiskárnu - zobrazení dialogu tisku
+     * @param tab JTable - tabulka s právě zobrazenými záznamy
+     */
     static void udalostMetOblastNabidkaButtonTisk(JTable tab) {
         table = tab;
         MessageFormat header = new MessageFormat("Strana {0,number,integer}");
@@ -90,7 +115,12 @@ public class ObsluhaUdalosti {
             JOptionPane.showMessageDialog(null, "Chyba tisku!", "Tisk", JOptionPane.ERROR_MESSAGE);
         }
     }
-
+    
+    /**
+     * Reakce na událost od tlačítka - Export
+     * Exportuje tabulku s právě zobrazenými záznamy do souburu typu .txt
+     * @param tab JTable - tabulka s právě zobrazenými záznamy
+     */
     static void udalostMetOblastNabidkaButtonExport(JTable tab) {
         table = tab;
         List<String> arrayList;
@@ -187,13 +217,21 @@ public class ObsluhaUdalosti {
             JOptionPane.showMessageDialog(null, "Chyba pri exportovani do souboru!", "Exportování záznamů z Databáze knih", JOptionPane.ERROR_MESSAGE);
         }
     }
-
+    
+    /**
+     * Reakce na událost od tlačítka - Polozka1 v Menu
+     * Zobrazí hlášku s počtem záznamů (Knih) v databázi - kromě smazaných záznamů
+     */
     static void udalostMetPolozkaMenuPolozka1() {
         int realnyPocetZaznamu = Main.vratRealnyPocetZaznamu();
         String hlaska = String.format("Počet záznamů v Databázi knih je %d. \n        (Bez smazaných záznamů.)", realnyPocetZaznamu);
         JOptionPane.showMessageDialog(null, hlaska, "Počet záznamů v Databázi knih", JOptionPane.INFORMATION_MESSAGE);
     }
-
+    
+    /**
+     * Reakce na událost od tlačítka - Konec v Menu
+     * Zobrazí dialog k uzavření programu a ukončí ho
+     */
     static void udalostMetPolozkaMenuKonec() {
         GUI_hl okno2 = new GUI_hl();
         Object[] options = {"Ano", "Ne"};
@@ -212,7 +250,11 @@ public class ObsluhaUdalosti {
             case JOptionPane.CANCEL_OPTION:  //rozmyslel si to, nedelej nic.
             }
     }
-
+    
+    /**
+     * Reakce na událost od tlačítka - Nápověda v Nápověda
+     * Jako hlášku zobrazí stručnou nápovědu k programu - především ovládání
+     */
     static void udalostMetPolozkaMenuNapoveda() {
         JOptionPane.showMessageDialog(null, "Značení umístění v knihovně\n"
                 + "---------------------------\n"

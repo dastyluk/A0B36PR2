@@ -1,3 +1,10 @@
+/**
+ * Okna.java
+ * Semestrální práce na A0B36PR2  =  RODINNÁ DATABÁZE
+ * @author Lukáš Dastych
+ * Začátek tvorby: 22.2.2013
+ * Databáze knih určená pro domácí použití.
+ */
 package rodinna_databaze;
 
 import java.awt.Dimension;
@@ -17,12 +24,15 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 /**
- *
- * @author Lukáš Dastych
+ * Třída tříd, které vytvářejí dodatečná okna (Nový záznam, 
+ * Úprava stávajícího záznamu, O programu).
  */
 public class Okna {
 }
 
+/**
+ * Třída, která vytváří okno pro zadání Nového záznamu
+ */
 class OknoOblastNabidkaNovy extends JFrame {
 
     private PrvekDatabaze pomocnaKniha;
@@ -44,7 +54,12 @@ class OknoOblastNabidkaNovy extends JFrame {
     private JTextField fieldUmisteni;
     private JButton ulozZmeny = new JButton("Uložit");
     private JButton stornoZmeny = new JButton("Zrušit");
-
+    
+    /**
+     * Konstruktor - vytvoří okno se všemi komponentami
+     * @param pocetZaznamu int - počet záznamů v databázi pro pořadové číslo
+     *            nového záznamu +1
+     */
     public OknoOblastNabidkaNovy(final int pocetZaznamu) {
         this.setDefaultCloseOperation(HIDE_ON_CLOSE);
         this.setResizable(false);
@@ -92,16 +107,20 @@ class OknoOblastNabidkaNovy extends JFrame {
         fieldUmisteni.setBounds(180, 480, 290, 20);
         ulozZmeny.setBounds(145, 520, 100, 30);
         ulozZmeny.addActionListener(new ActionListener() {
+            /**
+             * Reakce na tlačítko Uložit
+             * Uloží Nový záznam do databáze, přičemž skontroluje správně zadaný rok - int
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
                     pomocnaKniha = new Kniha(pocetZaznamu + 1, fieldNazev.getText(), fieldAutor.getText(),
                             Integer.parseInt(fieldRok.getText()), fieldVydavatelstvi.getText(),
                             fieldZanr.getText(), fieldJazyk.getText(), fieldUmisteni.getText());
-                    Main.novyZaznamVSQLDatabaziAArrayListu(pomocnaKniha);
+                    Databaze.novyZaznamVSQLDatabaziAArrayListu(pomocnaKniha);
                     dispose();  //zavrit okno
                     Main.mainVypisTabulkuDoOblastiHlavni();
-                    Main.nastavOblastHlaseni("Připraven");
+                    Main.mainVolaniSetOblastHlaseni("Připraven");
                 } catch (NumberFormatException er) {
                     JOptionPane.showMessageDialog(null, "Zadaný údaj v kolonce Rok vydání knihy není číslo! \nZadejte rok vydání knihy (4 ciferné číslo).", "Nový záznam", JOptionPane.ERROR_MESSAGE);
                     fieldRok.setText("");
@@ -113,10 +132,14 @@ class OknoOblastNabidkaNovy extends JFrame {
         });
         stornoZmeny.setBounds(255, 520, 100, 30);
         stornoZmeny.addActionListener(new ActionListener() {
+            /**
+             * Reakce na tlačítko Strono
+             * Zavře okno
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();  //zavrit okno
-                Main.nastavOblastHlaseni("Připraven");
+                Main.mainVolaniSetOblastHlaseni("Připraven");
             }
         });
 
@@ -141,6 +164,9 @@ class OknoOblastNabidkaNovy extends JFrame {
     }
 }
 
+/**
+ * Třída, která vytváří okno pro Úpravu stávajícího záznamu
+ */
 class OknoOblastNabidkaUprav extends JFrame {
 
     private PrvekDatabaze pomocnaKniha;
@@ -177,7 +203,11 @@ class OknoOblastNabidkaUprav extends JFrame {
     String zanr;
     String jazyk;
     String umisteni;
-
+    
+    /**
+     * Konstruktor - vytvoří okno se všemi komponentami
+     * @param pomKniha PrvekDatabaze - pro zobrazení předchozích hodnot záznamu
+     */
     public OknoOblastNabidkaUprav(final PrvekDatabaze pomKniha) {
         this.setDefaultCloseOperation(HIDE_ON_CLOSE);
         this.setResizable(false);
@@ -256,6 +286,10 @@ class OknoOblastNabidkaUprav extends JFrame {
         fieldUmisteni.setBounds(180, 480, 290, 20);
         ulozZmeny.setBounds(145, 520, 100, 30);
         ulozZmeny.addActionListener(new ActionListener() {
+            /**
+             * Reakce na tlačítko Uložit
+             * Uloží Upravený záznam do databáze, přičemž zkontroluje správně zadaný rok - int
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
@@ -281,10 +315,10 @@ class OknoOblastNabidkaUprav extends JFrame {
                         umisteni = fieldUmisteni.getText();
                     }
                     pomocnaKniha = new Kniha(pomKniha.getParam1(), nazev, autor, rok, vydavatelstvi, zanr, jazyk, umisteni);
-                    Main.upravZaznamVSQLDatabaziAArrayListu(pomocnaKniha.getParam1(), pomocnaKniha);
+                    Databaze.upravZaznamVSQLDatabaziAArrayListu(pomocnaKniha.getParam1(), pomocnaKniha);
                     dispose();  //zavrit okno
                     Main.mainVypisTabulkuDoOblastiHlavni();
-                    Main.nastavOblastHlaseni("Připraven");
+                    Main.mainVolaniSetOblastHlaseni("Připraven");
                 } catch (NumberFormatException er) {
                     JOptionPane.showMessageDialog(null, "Zadaný údaj v kolonce Rok vydání knihy není číslo! \nZadejte rok vydání knihy (4 ciferné číslo).", "Úprava záznamu", JOptionPane.ERROR_MESSAGE);
                     fieldRok.setText("");
@@ -295,10 +329,14 @@ class OknoOblastNabidkaUprav extends JFrame {
         });
         stornoZmeny.setBounds(255, 520, 100, 30);
         stornoZmeny.addActionListener(new ActionListener() {
+            /**
+             * Reakce na tlačítko Strono
+             * Zavře okno
+             */
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();  //zavrit okno
-                Main.nastavOblastHlaseni("Připraven");
+                Main.mainVolaniSetOblastHlaseni("Připraven");
             }
         });
 
@@ -331,8 +369,15 @@ class OknoOblastNabidkaUprav extends JFrame {
     }
 }
 
+/**
+ * Třída, která vytváří okno zobrazující informace o programu
+ */
 class OknoPolozkaMenuOProgramu extends JFrame {
-
+    
+    /**
+     * Konstruktor - vytvoří okno se všemi komponentami
+     * Zobrazení informací o programu
+     */
     public OknoPolozkaMenuOProgramu() {
         this.setDefaultCloseOperation(HIDE_ON_CLOSE);
         this.setResizable(false);
@@ -346,6 +391,6 @@ class OknoPolozkaMenuOProgramu extends JFrame {
         JPanel p = new JPanel();
         p.add(ta);
         getContentPane().add(p);
-        Main.nastavOblastHlaseni("Připraven");
+        Main.mainVolaniSetOblastHlaseni("Připraven");
     }
 }

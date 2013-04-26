@@ -1,3 +1,10 @@
+/**
+ * GUI_hl.java
+ * Semestrální práce na A0B36PR2  =  RODINNÁ DATABÁZE
+ * @author Lukáš Dastych
+ * Začátek tvorby: 22.2.2013
+ * Databáze knih určená pro domácí použití.
+ */
 package rodinna_databaze;
 
 import java.awt.BorderLayout;
@@ -21,9 +28,7 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
 /**
- * Semestrální práce na A0B36PR2 RODINNÁ DATABÁZE Začátek tvorby: 22.2.2013
- *
- * @author Lukáš Dastych
+ * Třída hlavního grafického a ovládacího rozhraní pro celý program
  */
 public class GUI_hl extends JFrame implements TableModelListener {
 
@@ -56,7 +61,10 @@ public class GUI_hl extends JFrame implements TableModelListener {
     private TableRowSorter<TableModel> sorter;
     private boolean provadetZmenyVTab = false;
     private boolean predchoziStavPrepisuTab = false;
-
+    
+    /**
+     * Konstruktor - vytvoří hlavní okno se všemi komponentami
+     */
     public GUI_hl() {
         super();
         this.setBounds(100, 0, 1100, 740);  //this.setBounds(100, 50, 1100, 750);
@@ -93,8 +101,11 @@ public class GUI_hl extends JFrame implements TableModelListener {
         oblastHlavni.setBorder(BorderFactory.createTitledBorder("Zobrazení databáze"));
         String[] columnNames = {"P.Č.", "Název", "Autor", "Rok", "Vydatelství", "Zanr", "Jazyk", "Umístění"};
         modelTab = new DefaultTableModel(columnNames, 0) {
+            /**
+             * Vnitřní třída pro spravne trideni po kliknuti na hlavicku sloupce
+             */
             @Override
-            public Class getColumnClass(int column) {  //pro spravne trideni po kliknuti na hlavicku sloupce
+            public Class getColumnClass(int column) {
                 Class returnValue;
                 if ((column >= 0) && (column < getColumnCount())) {
                     returnValue = getValueAt(0, column).getClass();
@@ -117,7 +128,7 @@ public class GUI_hl extends JFrame implements TableModelListener {
         oblastHlavniScroll.setViewportView(oblastHlavniTab);
         oblastHlavniScroll.setBounds(7, 20, 785, 632);
         TableColumn column;
-        for (int i = 0; i < 8; i++) {  //NASTAVENI SIRKY SLOUPCU
+        for (int i = 0; i < 8; i++) {  //NASTAVENI SIRKY SLOUPCU TABULKY
             column = oblastHlavniTab.getColumnModel().getColumn(i);
             if (i == 0) {
                 column.setMinWidth(30);
@@ -205,16 +216,23 @@ public class GUI_hl extends JFrame implements TableModelListener {
         oblastNabidkaFieldHledej.setBounds(15, 621, 250, 30);
         oblastNabidkaFieldHledej.getDocument().addDocumentListener(
                 new DocumentListener() {
+                    /**
+                     * Metoda pro správné vyhledávání v záznamech
+                     */
                     @Override
                     public void changedUpdate(DocumentEvent e) {
                         sorter.setRowFilter(RowFilter.regexFilter(oblastNabidkaFieldHledej.getText()));
                     }
-
+                    /**
+                     * Metoda pro správné vyhledávání v záznamech
+                     */
                     @Override
                     public void insertUpdate(DocumentEvent e) {
                         sorter.setRowFilter(RowFilter.regexFilter(oblastNabidkaFieldHledej.getText()));
                     }
-
+                    /**
+                     * Metoda pro správné vyhledávání v záznamech
+                     */
                     @Override
                     public void removeUpdate(DocumentEvent e) {
                         sorter.setRowFilter(RowFilter.regexFilter(oblastNabidkaFieldHledej.getText()));
@@ -243,7 +261,11 @@ public class GUI_hl extends JFrame implements TableModelListener {
 
         setContentPane(kon);
     }
-
+    
+    /**
+     * Reakce na změnu údajů v tabulce záznamů - kontrola a uložení do databaze
+     * @param e TableModelEvent - informace o upravené buňce tabulky
+     */
     @Override
     public void tableChanged(TableModelEvent e) {
         if (provadetZmenyVTab) {
@@ -262,7 +284,7 @@ public class GUI_hl extends JFrame implements TableModelListener {
                             (String) oblastHlavniTab.getModel().getValueAt(radek, 6),
                             (String) oblastHlavniTab.getModel().getValueAt(radek, 7));
                     try {
-                        Main.upravZaznamVSQLDatabaziAArrayListu(radek + 1, pomocnaKniha);
+                        Databaze.upravZaznamVSQLDatabaziAArrayListu(radek + 1, pomocnaKniha);
                         //            Main.mainVypisTabulkuDoOblastiHlavni();
                     } catch (NumberFormatException er) {
                         JOptionPane.showMessageDialog(null, "Zadaný údaj v kolonce Rok vydání knihy není číslo! \nZadejte rok vydání knihy (4 ciferné číslo).", "Úprava záznamu", JOptionPane.ERROR_MESSAGE);
@@ -277,7 +299,11 @@ public class GUI_hl extends JFrame implements TableModelListener {
             }
         }
     }
-
+    
+    /**
+     * Vytvoří tabulku s počtem řádků podle počtu prvků v listKnih
+     * @param listKnih List - vnitřní interpretace databáze ArrayListem
+     */
     void vypisTabulkuDoOblastiHlavni(List listKnih) {
         provadetZmenyVTab = false;
         for (int i = modelTab.getRowCount() - 1; i >= 0; i--) {
@@ -292,21 +318,37 @@ public class GUI_hl extends JFrame implements TableModelListener {
         provadetZmenyVTab = true;
     }
     
+    /**
+     * Vypíře řetězec str do oblasti hlášení vespod okna
+     * @param str String - požadovaný řetězec pro výpis
+     */
     void setOblastHlaseni(String str) {
         oblastHlaseni.setText(str);
     }
-
-    class udalostOblastNabidkaButtonNovy implements ActionListener {
-
+    
+    /**
+     * Třída reakce na stisknutí tlačítka - Nový záznam
+     */
+    class udalostOblastNabidkaButtonNovy implements ActionListener {        
+        /**
+         * Metoda reakce - volání metody rakce na událost v souboru ObsluhaUdalosti.java
+         * @param e informace o stisknutém tlačítku
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
             oblastHlaseni.setText("Vytváření nového záznamu");
             ObsluhaUdalosti.udalostMetOblastNabidkaButtonNovy();
         }
     }
-
+    
+    /**
+     * Třída reakce na stisknutí tlačítka - Upravit záznam
+     */
     class udalostOblastNabidkaButtonUprav implements ActionListener {
-
+        /**
+         * Metoda reakce - volání metody rakce na událost v souboru ObsluhaUdalosti.java
+         * @param e informace o stisknutém tlačítku
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
             oblastHlaseni.setText("Úprava záznamu");
@@ -321,9 +363,15 @@ public class GUI_hl extends JFrame implements TableModelListener {
             }
         }
     }
-
+    
+    /**
+     * Třída reakce na stisknutí tlačítka - Smazat záznam
+     */
     class udalostOblastNabidkaButtonSmaz implements ActionListener {
-
+        /**
+         * Metoda reakce - volání metody rakce na událost v souboru ObsluhaUdalosti.java
+         * @param e informace o stisknutém tlačítku
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
             oblastHlaseni.setText("Mazání záznamu");
@@ -339,9 +387,15 @@ public class GUI_hl extends JFrame implements TableModelListener {
             oblastHlaseni.setText("Připraven");
         }
     }
-
+    
+    /**
+     * Třída reakce na stisknutí tlačítka - Tisk
+     */
     class udalostOblastNabidkaButtonTisk implements ActionListener {
-
+        /**
+         * Metoda reakce - volání metody rakce na událost v souboru ObsluhaUdalosti.java
+         * @param e informace o stisknutém tlačítku
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
             oblastHlaseni.setText("Probíhá tisk");
@@ -349,9 +403,15 @@ public class GUI_hl extends JFrame implements TableModelListener {
             oblastHlaseni.setText("Připraven");
         }
     }
-
+    
+    /**
+     * Třída reakce na stisknutí tlačítka - Export
+     */
     class udalostOblastNabidkaButtonExport implements ActionListener {
-
+        /**
+         * Metoda reakce - volání metody rakce na událost v souboru ObsluhaUdalosti.java
+         * @param e informace o stisknutém tlačítku
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
             oblastHlaseni.setText("Export záznamů");
@@ -359,9 +419,15 @@ public class GUI_hl extends JFrame implements TableModelListener {
             oblastHlaseni.setText("Připraven");
         }
     }
-
+    
+    /**
+     * Třída reakce na stisknutí tlačítka - Počet záznamů v Menu
+     */
     class udalostPolozkaMenuPolozka1 implements ActionListener {
-
+        /**
+         * Metoda reakce - volání metody rakce na událost v souboru ObsluhaUdalosti.java
+         * @param e informace o stisknutém tlačítku
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
             oblastHlaseni.setText("Počet záznamů");
@@ -369,9 +435,15 @@ public class GUI_hl extends JFrame implements TableModelListener {
             oblastHlaseni.setText("Připraven");
         }
     }
-
+    
+    /**
+     * Třída reakce na stisknutí tlačítka - Konec v Menu
+     */
     class udalostPolozkaMenuKonec implements ActionListener {
-
+        /**
+         * Metoda reakce - volání metody rakce na událost v souboru ObsluhaUdalosti.java
+         * @param e informace o stisknutém tlačítku
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
             oblastHlaseni.setText("Ukončování programu");
@@ -379,9 +451,15 @@ public class GUI_hl extends JFrame implements TableModelListener {
             oblastHlaseni.setText("Připraven");
         }
     }
-
+    
+    /**
+     * Třída reakce na stisknutí tlačítka - Nápověda v Nápověda
+     */
     class udalostPolozkaMenuNapoveda implements ActionListener {
-
+        /**
+         * Metoda reakce - volání metody rakce na událost v souboru ObsluhaUdalosti.java
+         * @param e informace o stisknutém tlačítku
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
             oblastHlaseni.setText("Nápověda k programu");
@@ -389,9 +467,15 @@ public class GUI_hl extends JFrame implements TableModelListener {
             oblastHlaseni.setText("Připraven");
         }
     }
-
+    
+    /**
+     * Třída reakce na stisknutí tlačítka - O programu v Nápověda
+     */
     class udalostPolozkaMenuOProgramu implements ActionListener {
-
+        /**
+         * Metoda reakce - vytvoří a otevře okno zobrazující informace o programu
+         * @param e informace o stisknutém tlačítku
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
             oblastHlaseni.setText("O programu");
