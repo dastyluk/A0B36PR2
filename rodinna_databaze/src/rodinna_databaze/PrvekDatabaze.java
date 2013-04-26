@@ -73,6 +73,7 @@ class razeni8 implements Comparator<PrvekDatabaze>{
 /**
  * Abstraktní třída definující rozhraní pro tvorbu objektů ukládaných do
  * databáze (Kniha, Potravina, ...)
+ * Příprava na vytvoření dalších databází spravovaných tímto programem
  */
 public abstract class PrvekDatabaze {
     int param1;

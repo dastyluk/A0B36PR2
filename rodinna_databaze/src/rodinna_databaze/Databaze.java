@@ -133,7 +133,7 @@ public class Databaze {
      * Metoda, která uloží upravený záznam do SQL databáze a do vnitřní
      * databáze programu - do ArrayListu
      * @param poradoveCislo int - Pořadové číslo upraveného záznamu - číslování od 1
-     * @param pomKnihaPrvekDatabaze - upravený záznam
+     * @param pomKniha PrvekDatabaze - upravený záznam
      */
     public static void upravZaznamVSQLDatabaziAArrayListu(int poradoveCislo, PrvekDatabaze pomKniha) {
         Main.mainVolaniSetOblastHlaseni("Úprava záznamu v databázi");
