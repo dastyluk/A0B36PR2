@@ -12,7 +12,7 @@ import java.io.*;
 /**
  * Třída podle které se vytváří objekty (Knihy) ukládané do databáze.
  */
-class Kniha extends PrvekDatabaze implements Serializable {
+public class Kniha extends PrvekDatabaze implements Serializable {
     /**
      * Konstruktor pro vytváření objektů (záznamů) typu Potravina
      * @param poradoveCislo
