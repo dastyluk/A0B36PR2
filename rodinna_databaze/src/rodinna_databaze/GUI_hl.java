@@ -64,7 +64,7 @@ public class GUI_hl extends JFrame implements TableModelListener {
      */
     public GUI_hl() {
         super();
-        this.setBounds(100, 30, 1100, 740);
+        this.setBounds(100, 0, 1100, 740);
         this.setTitle("Rodinná databáze");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
